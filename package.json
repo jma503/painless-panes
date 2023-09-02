@@ -2,7 +2,9 @@
   "name": "painless-panes",
   "version": "0.0.0",
   "scripts": {
-    "server": "nodemon --watch server server/server.cjs"
+    "server": "nodemon --watch server server/server.cjs",
+    "client": "vite",
+    "build": "vite build"
   },
   "dependencies": {
     "@sendgrid/mail": "^7.7.0",
@@ -12,9 +14,13 @@
     "express-session": "^1.17.3",
     "passport": "^0.6.0",
     "passport-magic-link": "^2.1.0",
-    "pg": "^8.11.3"
+    "pg": "^8.11.3",
+    "react": "^18.2.0",
+    "react-dom": "^18.2.0"
   },
   "devDependencies": {
-    "nodemon": "^3.0.1"
+    "@vitejs/plugin-react": "^4.0.4",
+    "nodemon": "^3.0.1",
+    "vite": "^4.4.9"
   }
 }
