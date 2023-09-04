@@ -43,9 +43,6 @@ const lookupUser = async (user) => {
  * @returns {Object} The user row
  */
 const addUser = async (user) => {
-  console.log("IN addUser");
-  console.log("user:", user);
-
   // If the user already exists, return the row
   const existingUser = await lookupUser(user);
   if (existingUser) {

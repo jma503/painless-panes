@@ -1,6 +1,6 @@
 /**
  * Email verification routes
- * 
+ *
  * Prefix: /api/email
  *
  * (See https://apidocjs.com/ for API documentation format)
@@ -25,12 +25,13 @@ router.post("/send", sendEmailMiddleware, (req, res) => {
 
 /**
  * @api {get} /api/email/verify This will be triggered by the magic link
- * 
+ *
  * @apiParam {String} token The verification token in the magic link
  */
 router.get("/verify", verifyEmailMiddleware, (req, res) => {
   console.log("The email checks out. The user has been added to the database");
-  res.sendStatus(201);
+  console.log("Redirecting to", process.env.CLIENT_URL);
+  return res.status(201).redirect(process.env.CLIENT_URL);
 });
 
 module.exports = router;

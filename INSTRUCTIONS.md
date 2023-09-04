@@ -16,10 +16,11 @@ You will need to enter your API key and the email you authenticated with SendGri
 
 The following environment variables must be set in a `.env` file:
 ```
-PORT=8002
-SITE_URL=http://localhost:8002
-SERVER_SESSION_SECRET=<your session secret>
+PORT=8002   # the port used by the server
 DATABASE_URL=<URL to connect to database>
+CLIENT_URL=http://localhost:5173
+SERVER_URL=http://localhost:8002
+SERVER_SESSION_SECRET=<your session secret>
 SENDGRID_API_KEY=<API key for sendgrid>
 SENDGRID_EMAIL=<sendgrid sender email address>
 ```

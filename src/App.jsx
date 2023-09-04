@@ -5,11 +5,11 @@ import NotFoundPage from "./pages/NotFoundPage";
 
 export default function App() {
   return (
-  <Layout>
-    <Routes>
-      <Route exact path="/:page?" element={<FormPage />} />
-      <Route path="*" element={<NotFoundPage />} />
-    </Routes>
-  </Layout>
+    <Layout>
+      <Routes>
+        <Route exact path="/:page?" element={<FormPage />} />
+        <Route path="*" element={<NotFoundPage />} />
+      </Routes>
+    </Layout>
   );
 }
