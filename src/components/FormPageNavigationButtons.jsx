@@ -4,11 +4,11 @@ export default function FormPageNavigationButtons({ page }) {
   const navigate = useNavigate();
 
   const navigateBack = () => {
-    navigate(`/${page - 1}`);
+    navigate(`/form/${page - 1}`);
   };
 
   const navigateNext = () => {
-    navigate(`/${page + 1}`);
+    navigate(`/form/${page + 1}`);
   };
 
   return (

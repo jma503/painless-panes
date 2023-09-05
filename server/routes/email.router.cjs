@@ -31,7 +31,7 @@ router.post("/send", sendEmailMiddleware, (req, res) => {
 router.get("/verify", verifyEmailMiddleware, (req, res) => {
   console.log("The email checks out. The user has been added to the database");
   console.log("Redirecting to", process.env.CLIENT_URL);
-  return res.status(201).redirect(process.env.CLIENT_URL);
+  return res.status(201).redirect(`${process.env.CLIENT_URL}/form/1`);
 });
 
 module.exports = router;
