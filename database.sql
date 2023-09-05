@@ -1,3 +1,5 @@
+-- Database name: "painless_panes"
+
 -- For cookie session (required by connect-pg-simple)
 CREATE TABLE "session" (
   "sid" varchar NOT NULL COLLATE "default",
