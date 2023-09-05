@@ -4,12 +4,33 @@
 require("dotenv").config();
 
 const pg = require("pg");
-const pool = new pg.Pool({
-  connectionString: process.env.DATABASE_URL,
-  ssl: {
-    rejectUnauthorized: false,
-  },
-});
+
+let poolConfig;
+
+if (process.env.DATABASE_URL) {
+  poolConfig = {
+    connectionString: process.env.DATABASE_URL,
+    ssl: {
+      rejectUnauthorized: false,
+    },
+  };
+} else {
+  poolConfig = {
+    host: "localhost",
+    port: 5432,
+    database: "painless_panes",
+  };
+}
+
+if (process.env.DATABASE_USER) {
+  poolConfig.user = process.env.DATABASE_USER;
+}
+
+if (process.env.DATABASE_PASSWORD) {
+  poolConfig.password = process.env.DATABASE_PASSWORD;
+}
+
+const pool = new pg.Pool(poolConfig);
 
 // pool
 //   .query('SELECT * FROM "user";')
