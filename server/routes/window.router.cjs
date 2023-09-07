@@ -3,9 +3,9 @@
  *
  *Prefix: /api/window
  *
- */
-
-// POST a window query
+ *
+ *@api {POST} /api/window/:projectId Create a new window for this project and get the new window’s ID
+*/
 const POST = require("../queries/window.query.cjs");
 
 const express = require("express");
