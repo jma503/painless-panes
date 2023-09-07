@@ -1,4 +1,5 @@
 import { useState } from "react";
+import { useDispatch } from "react-redux";
 import FormPageButtonsContainer from "../components/FormPageButtonsContainer";
 import FormPageHeader from "../components/FormPageHeader";
 import FormPageInput from "../components/FormPageInput";
@@ -23,7 +24,7 @@ export default function FormPageZipView() {
         setValue={setZipCode}
       />
       <FormPageButtonsContainer>
-        <FormPageNavigationButtons page={2} />
+        <FormPageNavigationButtons page={2} onClickNext={addZipCode} />
       </FormPageButtonsContainer>
     </>
   );
