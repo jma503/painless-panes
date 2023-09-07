@@ -11,7 +11,7 @@ export default function FormPageZipView() {
     <>
       <FormPageHeader text="Zip code?" />
       <FormPageInput
-        placeholder="Enter your zip code here..."
+        placeholder="enter your zip code here..."
         value={zipCode}
         setValue={setZipCode}
       />
