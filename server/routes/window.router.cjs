@@ -5,6 +5,7 @@
  *
  */
 
+// POST a window query
 const POST = require("../queries/window.query.cjs");
 
 const express = require("express");
@@ -17,7 +18,6 @@ const router = express.Router();
 /** 
 @apiParam {Number} projectId The project ID to create this window for
 @apiSuccess {Object} response The window ID: {“id”: <Number>}
-</Number>
 */
 router.post(
   "/:projectId",
