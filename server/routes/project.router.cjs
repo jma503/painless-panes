@@ -12,7 +12,7 @@ const router = express.Router();
 @apiSuccess {Object} response The project ID: {“id”: <Number>}
 */
 
-router.post("/api/project", requireAuthenticationMiddleware, async (req, res) => {
+router.post("/", requireAuthenticationMiddleware, async (req, res) => {
     try {
       await query.addZipCode(req.body);
       res.sendStatus(201);
@@ -21,3 +21,5 @@ router.post("/api/project", requireAuthenticationMiddleware, async (req, res) =>
       res.sendStatus(500);
     }
   });
+
+  module.exports = router;
