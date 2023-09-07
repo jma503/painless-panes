@@ -6,6 +6,13 @@ import FormPageNavigationButtons from "../components/FormPageNavigationButtons";
 
 export default function FormPageZipView() {
   const [zipCode, setZipCode] = useState("");
+  const dispatch = useDispatch();
+
+  const addZipCode = () => {
+    // Add zip code
+    const payload = { zipCode };
+    dispatch(actions.addZipCode(payload));
+  };
 
   return (
     <>
