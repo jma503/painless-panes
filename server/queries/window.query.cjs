@@ -13,8 +13,8 @@ const pool = require("../modules/pool.cjs");
 const addWindow = async (projectId) => {
   // Query for adding a window - will adjust the values for production
   // We decided that this will be a POST, then PUTs to update the various params
-  const QUERY = `INSERT INTO "window" (image, project_id) 
-                 VALUES ('/testPath/testPath', $1)
+  const QUERY = `INSERT INTO "window" (project_id) 
+                 VALUES ($1)
                  RETURNING id;`;
   const queryParams = [projectId.id];
 
