@@ -34,6 +34,14 @@ CREATE TABLE "location" (
 "access" VARCHAR(120)
 );
 
+INSERT INTO "location" (level, access)
+VALUES ('First floor', 'Foot'),
+('First floor', 'Ladder'),
+('Basement', 'Below ground'),
+('Second floor', 'Foot'),
+('Second floor', 'Ladder'),
+('Second floor', 'Roof/deck/ladder');
+
 SELECT * FROM location;
 
 -- frame table init
@@ -43,6 +51,13 @@ CREATE TABLE "frame" (
 "description" TEXT,
 "image" TEXT -- this is open for discussion but will probably contain a hash/something that can identify the S3 bucket where we will store the image. can also potentially 
 );			 -- just be a path to a local image
+
+INSERT INTO "frame" (name, description)
+VALUES ('Casement', 'A casement frame'),
+('Single or double hung', 'A single or double hung frame'),
+('Egress (basement)', 'An egress frame'),
+('Bay or bow', 'A bay or bow frame'),
+('Fixed', 'A non-opening frame');
 
 SELECT * FROM "frame";
 
