@@ -9,6 +9,7 @@ const passport = require("./modules/passport.cjs");
 // Route includes
 const emailRouter = require("./routes/email.router.cjs");
 const userRouter = require("./routes/user.router.cjs");
+const windowRouter = require("./routes/window.router.cjs");
 
 // Express middleware
 app.use(express.json());
@@ -23,6 +24,7 @@ app.use(passport.session());
 /* Routes */
 app.use("/api/email", emailRouter);
 app.use("/api/user", userRouter);
+app.use("/api/window", windowRouter);
 
 // Serve static files
 app.use(express.static("build"));
