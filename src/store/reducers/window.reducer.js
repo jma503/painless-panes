@@ -5,7 +5,7 @@
 export const UPDATE_WINDOWS = "UPDATE_WINDOWS";
 
 // action functions
-export const updateWindow = (payload) => {
+export const updateWindows = (payload) => {
   return { type: UPDATE_WINDOWS, payload };
 };
 
@@ -13,7 +13,6 @@ export const updateWindow = (payload) => {
 export function windowReducer(state = [], action) {
   switch (action.type) {
     case UPDATE_WINDOWS:
-      console.log("Window state: ", state);
       return [...state, action.payload];
     default:
       return state;
