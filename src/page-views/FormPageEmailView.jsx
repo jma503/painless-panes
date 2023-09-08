@@ -18,28 +18,12 @@ export default function FormPageEmailView() {
 }
 
 function FormPageVerifiedEmailView({ email }) {
-  // These declarations are for testing the add window saga and can be
-  // safely removed in production
-  // const dispatch = useDispatch();
-  // const payload = { id: 1 };
-
   return (
     <>
       <FormPageHeader text={`Your email ${email} has been verified!`} />
       <FormPageButtonsContainer>
         <FormPageNavigationButtons page={1} />
       </FormPageButtonsContainer>
-      {/* This div is for testing the addWindowSaga and can be safely removed
-      in production
-      <div>
-        <button
-          onClick={() => {
-            dispatch(actions.addWindow(payload));
-          }}
-        >
-          Click to add window
-        </button>
-      </div> */}
     </>
   );
 }

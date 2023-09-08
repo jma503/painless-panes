@@ -4,6 +4,7 @@ import { all } from "redux-saga/effects";
 import logger from "redux-logger";
 // Import reducers
 import { userReducer } from "./reducers/user.reducer";
+import { windowReducer } from "./reducers/window.reducer";
 // Import sagas
 import { emailSaga } from "./sagas/email.saga";
 import { userSaga } from "./sagas/user.saga";
@@ -16,6 +17,7 @@ const sagaMiddleware = createSagaMiddleware();
 const store = createStore(
   combineReducers({
     user: userReducer,
+    windows: windowReducer,
   }),
   applyMiddleware(sagaMiddleware, logger)
 );
