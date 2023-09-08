@@ -5,26 +5,16 @@ import { put, takeLatest } from "redux-saga/effects";
 const ADD_WINDOW = "ADD_WINDOW";
 
 // action functions
-export const addWindow = () => {
-  return { type: ADD_WINDOW };
+export const addWindow = (payload) => {
+  return { type: ADD_WINDOW, payload };
 };
 
 // action worker sagas
-export function* addWindowSaga(window) {
-  // const {
-  //   image,
-  //   height,
-  //   width,
-  //   location_id,
-  //   current_frame_id,
-  //   desired_frame_id,
-  //   project_id,
-  // } = window;
-
+export function* addWindowSaga(action) {
   try {
     const response = yield axios.post(
-      `/api/window/:${window.project_id}`,
-      window
+      `/api/window/:${action.payload.project_id}`,
+      action.payload
     );
     const windowId = yield response.data;
     // yield put(setWindow(window));
