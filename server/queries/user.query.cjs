@@ -2,6 +2,7 @@
  * Implements SQL queries for the "user" table
  */
 const pool = require("../modules/pool.cjs");
+const projectQuery = require("./project.query.cjs");
 
 /** Get a user by ID
  *
@@ -56,8 +57,13 @@ const addUser = async (user) => {
 
   try {
     const result = await pool.query(queryString, queryParams);
-    console.log("Returning new user:", result.rows[0]);
-    return result.rows[0];
+    const user = result.rows[0];
+    console.log("Returning new user:", user);
+
+    // Add a project for the new user
+    await projectQuery.addProject(user.id);
+
+    return user;
   } catch (error) {
     throw new Error(error);
   }

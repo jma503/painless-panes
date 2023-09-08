@@ -3,21 +3,22 @@
  */
 import { sendEmail } from "./sagas/email.saga";
 import { getUser } from "./sagas/user.saga";
+import { getProject, updateProjectZipCode } from "./sagas/project.saga"
 import { getFrames } from "./sagas/frame.saga";
 import { addWindow } from "./sagas/window.saga";
-import { addZipCode } from "./sagas/zip.saga";
 
 const actions = {
   // email
   sendEmail,
   // user
   getUser,
+  // project
+  getProject,
+  updateProjectZipCode,
   //frames
   getFrames,
   //window
   addWindow,
-  // zip code
-  addZipCode,
 };
 
 export default actions;

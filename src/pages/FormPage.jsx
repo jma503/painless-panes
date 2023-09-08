@@ -4,18 +4,14 @@ import { useDispatch, useSelector } from "react-redux";
 import actions from "../store/actions";
 import FormPageEmailView from "../page-views/FormPageEmailView";
 import FormPageZipView from "../page-views/FormPageZipView";
-import FormPageNavigationButtons from "../components/FormPageNavigationButtons";
 
 export default function FormPage() {
   const { page = 1 } = useParams();
   const dispatch = useDispatch();
 
-  const user = useSelector((store) => store.user);
-
   useEffect(() => {
-    if (!user.email) {
-      dispatch(actions.getUser());
-    }
+    dispatch(actions.getUser());
+    dispatch(actions.getProject());
   }, [page]);
 
   return (
