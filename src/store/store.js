@@ -9,6 +9,7 @@ import { windowReducer } from "./reducers/window.reducer";
 import { emailSaga } from "./sagas/email.saga";
 import { userSaga } from "./sagas/user.saga";
 import { windowSaga } from "./sagas/window.saga";
+import { zipCodeSaga } from "./sagas/zip.saga";
 
 // 1. Create the saga middleware
 const sagaMiddleware = createSagaMiddleware();
@@ -24,7 +25,7 @@ const store = createStore(
 
 // 3. Create the root saga
 function* rootSaga() {
-  yield all([userSaga(), emailSaga(), windowSaga()]);
+  yield all([userSaga(), emailSaga(), windowSaga(), zipCodeSaga()]);
 }
 
 // 4. Run the root saga
