@@ -10,11 +10,25 @@ export const addWindow = () => {
 };
 
 // action worker sagas
-export function* addWindowSaga() {
+export function* addWindowSaga(window) {
+  // const {
+  //   image,
+  //   height,
+  //   width,
+  //   location_id,
+  //   current_frame_id,
+  //   desired_frame_id,
+  //   project_id,
+  // } = window;
+
   try {
-    const response = yield axios.get("/api/window/:id");
-    const frames = yield response.data;
-    yield put(setFrames(frames));
+    const response = yield axios.post(
+      `/api/window/:${window.project_id}`,
+      window
+    );
+    const windowId = yield response.data;
+    // yield put(setWindow(window));
+    console.log("Window ID from server --> ", windowId);
   } catch (error) {
     console.error(error);
   }
