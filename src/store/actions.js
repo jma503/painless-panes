@@ -3,7 +3,8 @@
  */
 import { sendEmail } from "./sagas/email.saga";
 import { getUser } from "./sagas/user.saga";
-import { getFrames } from "./sagas/frame.saga"
+import { getFrames } from "./sagas/frame.saga";
+import { addWindow } from "./sagas/window.saga";
 
 const actions = {
   // email
@@ -11,7 +12,9 @@ const actions = {
   // user
   getUser,
   //frames
-  getFrames
+  getFrames,
+  //window
+  addWindow,
 };
 
 export default actions;
