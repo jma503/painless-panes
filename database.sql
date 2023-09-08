@@ -22,10 +22,10 @@ CREATE TABLE "user" (
 CREATE TABLE "project" (
 "id" SERIAL PRIMARY KEY,
 "zip" VARCHAR(10),
-"user_id" INT REFERENCES "user"
+"user_id" INT REFERENCES "user" NOT NULL
 );
 
-SELECT * FROM "project";
+-- SELECT * FROM "project";
 
 -- location table init
 CREATE TABLE "location" (
@@ -42,7 +42,7 @@ VALUES ('First floor', 'Foot'),
 ('Second floor', 'Ladder'),
 ('Second floor', 'Roof/deck/ladder');
 
-SELECT * FROM location;
+-- SELECT * FROM location;
 
 -- frame table init
 CREATE TABLE "frame" (
@@ -59,7 +59,7 @@ VALUES ('Casement', 'A casement frame'),
 ('Bay or bow', 'A bay or bow frame'),
 ('Fixed', 'A non-opening frame');
 
-SELECT * FROM "frame";
+-- SELECT * FROM "frame";
 
 -- window table init
 CREATE TABLE "window" (
@@ -70,7 +70,7 @@ CREATE TABLE "window" (
 "location_id" INT REFERENCES "location",
 "current_frame_id" INT REFERENCES "frame",
 "desired_frame_id" INT REFERENCES "frame",
-"project_id" INT REFERENCES "project"
+"project_id" INT REFERENCES "project" NOT NULL
 );
 
-SELECT * FROM "window";
+-- SELECT * FROM "window";
