@@ -1,7 +1,10 @@
 import { useNavigate } from "react-router-dom";
 import Button from "./Button";
 
-export default function FormPageNavigationButtons({ page }) {
+export default function FormPageNavigationButtons({
+  page,
+  onClickNext = undefined,
+}) {
   const navigate = useNavigate();
 
   const navigateBack = () => {
@@ -9,6 +12,9 @@ export default function FormPageNavigationButtons({ page }) {
   };
 
   const navigateNext = () => {
+    if (onClickNext) {
+      onClickNext();
+    }
     navigate(`/form/${Number(page) + 1}`);
   };
 

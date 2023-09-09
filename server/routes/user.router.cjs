@@ -18,6 +18,7 @@ const router = express.Router();
  * @apiSuccess (200) {Object} The user object, with `id` and `email` fields
  */
 router.get("/", requireAuthenticationMiddleware, (req, res) => {
+  console.log("GET /api/user response:", req.user);
   res.send(req.user);
 });
 
