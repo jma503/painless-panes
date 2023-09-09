@@ -12,7 +12,6 @@ const userRouter = require("./routes/user.router.cjs");
 const windowRouter = require("./routes/window.router.cjs");
 const frameRouter = require("./routes/frame.router.cjs")
 const projectRouter = require("./routes/project.router.cjs")
-const locationRouter = require("./routes/location.router.cjs");
 
 // Express middleware
 app.use(express.json());
@@ -30,7 +29,6 @@ app.use("/api/user", userRouter);
 app.use("/api/window", windowRouter);
 app.use("api/frames", frameRouter)
 app.use("/api/project", projectRouter);
-app.use("/api/location", locationRouter);
 
 
 // Serve static files
