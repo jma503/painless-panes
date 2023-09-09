@@ -25,7 +25,7 @@ export function allWindowsReducer(state = [], action) {
   }
 }
 
-export function currentWindowReducer(state = [], action) {
+export function currentWindowReducer(state = {}, action) {
   switch (action.type) {
     // returns the current window's ID via state as an object
     case SET_CURRENT_WINDOW:

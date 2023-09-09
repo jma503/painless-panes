@@ -20,7 +20,6 @@ export function* addWindowSaga(action) {
       action.payload
     );
     const windowId = yield response.data;
-    yield put(updateWindows({ proj_id: project_id, window_id: windowId }));
     yield put(setCurrentWindow({ window_id: windowId }));
     console.log("Window ID from server --> ", windowId);
   } catch (error) {
