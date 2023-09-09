@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import actions from "../store/actions";
 import FormPageButtonsContainer from "../components/FormPageButtonsContainer";
@@ -7,15 +7,15 @@ import FormPageInput from "../components/FormPageInput";
 import FormPageNavigationButtons from "../components/FormPageNavigationButtons";
 
 export default function FormPageZipView() {
-  const [zipCode, setZipCode] = useState("");
   const dispatch = useDispatch();
-  const user = useSelector((store) => store.user);
+  const project = useSelector((store) => store.project);
+  const [zipCode, setZipCode] = useState("");
 
-  const addZipCode = () => {
-    // Add zip code
-    const payload = { zipCode, userId: user.id };
-    dispatch(actions.addZipCode(payload));
-  };
+  useEffect(() => {
+    if (project.zip) {
+      setZipCode(project.zip);
+    }
+  }, [project]);
 
   return (
     <>
@@ -26,7 +26,12 @@ export default function FormPageZipView() {
         setValue={setZipCode}
       />
       <FormPageButtonsContainer>
-        <FormPageNavigationButtons page={2} onClickNext={addZipCode} />
+        <FormPageNavigationButtons
+          page={2}
+          onClickNext={() =>
+            dispatch(actions.updateProjectZipCode({ zipCode }))
+          }
+        />
       </FormPageButtonsContainer>
     </>
   );

@@ -1,24 +1,67 @@
 const pool = require("../modules/pool.cjs");
 
-/** Add a user's zip code
- * @param {Object} project An object containing the user's zip code
- * @returns {Object} The zip code row
+/**
+ * Get the latest project for a user
+ * @param {Number} userId The user's ID
+ * @returns {Object} The project row
  */
-const addZipCode = async (project) => {
-  const queryString =
-    'INSERT INTO "project" (zip, user_id) VALUES ($1, $2) RETURNING *;';
-  const queryParams = [project.zipCode, project.userId];
+const lookupLatestProject = async (userId) => {
+  const queryString = `
+    SELECT * FROM project WHERE id = (
+      SELECT MAX(id) FROM project WHERE user_id = $1
+    );
+  `
+  const queryParams = [userId];
   try {
     const result = await pool.query(queryString, queryParams);
-    console.log("Returning user zip code:", result.rows[0]);
+    return result.rows[0];
+  } catch (error) {
+    throw new Error(error);
+  }
+}
+
+/**
+ * Create a new project for a user and return the ID
+ * @param {Number} userId The user's ID
+ * @returns {Object} The project row
+ */
+const addProject = async (userId) => {
+  const queryString = `
+    INSERT INTO "project" (user_id) VALUES ($1) RETURNING id;
+  `;
+  const queryParams = [userId];
+  try {
+    const result = await pool.query(queryString, queryParams);
+    console.log("New project created:", result.rows[0]);
     return result.rows[0];
   } catch (error) {
     throw new Error(error);
   }
 };
 
-module.exports = {
-  addZipCode,
+/**
+ * Update the zip code for a project
+ * @param {Object} project A project object ontaining the project ID and the zip code
+ *    {id: <Number>, zip: <String>}
+ */
+const updateZipCode = async (project) => {
+  const queryString = `
+    UPDATE "project" SET zip=$2 WHERE id = $1;
+  `;
+  const queryParams = [project.id, project.zipCode];
+
+  try {
+    const result = await pool.query(queryString, queryParams);
+    console.log(
+      `Updated project ${project.id} with zip code ${project.zipCode}`
+    );
+  } catch (error) {
+    throw new Error(error);
+  }
 };
 
-addZipCode({ zipCode: "53349", id: 1 }).then(console.log);
+module.exports = {
+  lookupLatestProject,
+  addProject,
+  updateZipCode,
+};
