@@ -34,4 +34,27 @@ router.post(
   }
 );
 
+/** 
+@api {GET} /api/window/:projectId Get all windows for a project
+@apiSuccess {Object[]} response A list of window objects:
+[
+{"id": <Number>, "image": <String>, "height": <Number>, "width": <Number>, "desired_frame_id": <Number>, "project_id": <Number>},
+...
+]
+*/
+
+router.get("/:projectId", requireAuthenticationMiddleware, async (req, res) => {
+  const user = req.user;
+  try {
+    const project = await query.getListOfWindows(user.projectId);
+    console.log(`Get all windows for project ${user.projectId}:`, project);
+    res.send(project);
+  } catch (error) {
+    console.error(error);
+    res.sendStatus(500);
+  }
+});
+
+
+
 module.exports = router;

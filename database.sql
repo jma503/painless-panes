@@ -52,12 +52,12 @@ CREATE TABLE "frame" (
 "image" TEXT -- this is open for discussion but will probably contain a hash/something that can identify the S3 bucket where we will store the image. can also potentially 
 );			 -- just be a path to a local image
 
-INSERT INTO "frame" (name, description)
-VALUES ('Casement', 'A casement frame'),
-('Single or double hung', 'A single or double hung frame'),
-('Egress (basement)', 'An egress frame'),
-('Bay or bow', 'A bay or bow frame'),
-('Fixed', 'A non-opening frame');
+INSERT INTO "frame" (name, description, image)
+VALUES ('Casement', 'A casement frame', './public/Casement.jpg'),
+('Single or double hung', 'A single or double hung frame', './public/Double_Hung.jpg'),
+('Egress (basement)', 'An egress frame', './public/Casement.jpg'),
+('Bay or bow', 'A bay or bow frame', './public/Bay.jpg'),
+('Fixed', 'A non-opening frame', './public/.jpg');
 
 -- SELECT * FROM "frame";
 
