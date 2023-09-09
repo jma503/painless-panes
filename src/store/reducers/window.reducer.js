@@ -16,10 +16,17 @@ export const setCurrentWindow = (payload) => {
 };
 
 // reducer
-export function windowReducer(state = [], action) {
+export function allWindowsReducer(state = [], action) {
   switch (action.type) {
     case UPDATE_WINDOWS:
       return [...state, action.payload];
+    default:
+      return state;
+  }
+}
+
+export function currentWindowReducer(state = [], action) {
+  switch (action.type) {
     // returns the current window's ID via state as an object
     case SET_CURRENT_WINDOW:
       return action.payload;

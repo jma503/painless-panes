@@ -1,6 +1,7 @@
 import axios from "axios";
 import { put, takeLatest } from "redux-saga/effects";
 import { setCurrentWindow } from "../reducers/window.reducer";
+import { updateWindows } from "../reducers/window.reducer";
 
 // action types
 export const ADD_WINDOW = "ADD_WINDOW";
@@ -19,10 +20,7 @@ export function* addWindowSaga(action) {
       action.payload
     );
     const windowId = yield response.data;
-    // yield put(updateWindows({ proj_id: project_id, window_id: windowId }));
-    // setCurrentWindow will work better for our purposes - it will return only
-    // the current window's ID. we can utilize specific queries to GET windows by
-    // project
+    yield put(updateWindows({ proj_id: project_id, window_id: windowId }));
     yield put(setCurrentWindow({ window_id: windowId }));
     console.log("Window ID from server --> ", windowId);
   } catch (error) {
