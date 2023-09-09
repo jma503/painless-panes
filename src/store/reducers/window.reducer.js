@@ -11,7 +11,7 @@ export const updateWindows = (payload) => {
 };
 
 // action to set the current window ID
-export const setCurrentWindow = (payload) => {
+export const setCurrentWindowId = (payload) => {
   return { type: SET_CURRENT_WINDOW, payload };
 };
 
@@ -25,7 +25,7 @@ export function allWindowsReducer(state = [], action) {
   }
 }
 
-export function currentWindowReducer(state = {}, action) {
+export function currentWindowIdReducer(state = null, action) {
   switch (action.type) {
     // returns the current window's ID via state as an object
     case SET_CURRENT_WINDOW:

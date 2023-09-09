@@ -7,7 +7,7 @@ import { userReducer } from "./reducers/user.reducer";
 import { projectReducer } from "./reducers/project.reducer";
 import {
   allWindowsReducer,
-  currentWindowReducer,
+  currentWindowIdReducer,
 } from "./reducers/window.reducer";
 // Import sagas
 import { emailSaga } from "./sagas/email.saga";
@@ -24,7 +24,7 @@ const store = createStore(
     user: userReducer,
     project: projectReducer,
     allWindows: allWindowsReducer,
-    currentWindow: currentWindowReducer,
+    currentWindowId: currentWindowIdReducer,
   }),
   applyMiddleware(sagaMiddleware, logger)
 );
