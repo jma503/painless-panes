@@ -4,6 +4,8 @@ import { useDispatch, useSelector } from "react-redux";
 import actions from "../store/actions";
 import FormPageEmailView from "../page-views/FormPageEmailView";
 import FormPageZipView from "../page-views/FormPageZipView";
+import HowToMeasureWindows from "../page-views/HowToMeasureWindow"
+import FormPageAddImages from "../page-views/FormPageAddImagesView";
 
 export default function FormPage() {
   const { page = 1 } = useParams();
@@ -18,6 +20,9 @@ export default function FormPage() {
     <div className="w-full pl-12 pr-12 flex flex-col items-center justify-center">
       {page == 1 && <FormPageEmailView />}
       {page == 2 && <FormPageZipView />}
+      {page == 3 && <HowToMeasureWindows/>}
+      {page == 4 && <FormPageAddImages/>}
+
     </div>
   );
 }
