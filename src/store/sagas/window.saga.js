@@ -1,6 +1,6 @@
 import axios from "axios";
 import { put, takeLatest } from "redux-saga/effects";
-import { updateWindows } from "../reducers/window.reducer";
+import { setCurrentWindowId } from "../reducers/window.reducer";
 
 // action types
 export const ADD_WINDOW = "ADD_WINDOW";
@@ -19,7 +19,7 @@ export function* addWindowSaga(action) {
       action.payload
     );
     const windowId = yield response.data;
-    yield put(updateWindows({ proj_id: project_id, window_id: windowId }));
+    yield put(setCurrentWindowId(windowId));
     console.log("Window ID from server --> ", windowId);
   } catch (error) {
     console.error(error);

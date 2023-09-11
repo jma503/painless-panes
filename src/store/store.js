@@ -5,7 +5,10 @@ import logger from "redux-logger";
 // Import reducers
 import { userReducer } from "./reducers/user.reducer";
 import { projectReducer } from "./reducers/project.reducer";
-import { windowReducer } from "./reducers/window.reducer";
+import {
+  allWindowsReducer,
+  currentWindowIdReducer,
+} from "./reducers/window.reducer";
 // Import sagas
 import { emailSaga } from "./sagas/email.saga";
 import { userSaga } from "./sagas/user.saga";
@@ -20,7 +23,8 @@ const store = createStore(
   combineReducers({
     user: userReducer,
     project: projectReducer,
-    windows: windowReducer,
+    allWindows: allWindowsReducer,
+    currentWindowId: currentWindowIdReducer,
   }),
   applyMiddleware(sagaMiddleware, logger)
 );
