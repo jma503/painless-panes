@@ -13,6 +13,14 @@ const {
   requireAuthenticationMiddleware,
 } = require("../middlewares/auth.middleware.cjs");
 
+// AWS Declarations
+const { PutObjectCommand, S3Client } = require("@aws-sdk/client-s3");
+const s3Client = new S3Client({
+  accessKeyId: process.env.AWS_ACCESS_KEY_ID,
+  secretAccessKey: process.env.AWS_SECRET_ACCESS_KEY,
+  region: process.env.AWS_REGION,
+});
+
 const router = express.Router();
 
 /** 
@@ -55,6 +63,33 @@ router.get("/:projectId", requireAuthenticationMiddleware, async (req, res) => {
   }
 });
 
+router.post(
+  "/upload/:projectId",
+  requireAuthenticationMiddleware,
+  (req, res) => {
+    // if the file body is null (no photo provided)
+    const projectId = req.params.projectId;
+    if (req.files === null) {
+      res.json(null).status(200);
 
+      // if a photo is provided, process and upload it
+    } else {
+      const imageData = req.files.image.data;
+      const hash = req.files.image.md5;
+      const imageKey = `${req.user.id}/${hash}`; // folder/file
+      const command = new PutObjectCommand({
+        Bucket: process.env.AWS_BUCKET,
+        Key: imageKey, // folder/file
+        Body: imageData, // image data to upload
+      });
+
+      // send back the md5 hash to store in the database
+      // used for accessing the photos
+      s3Client.send(command).then((response) => {
+        res.json(hash).status(200);
+      });
+    }
+  }
+);
 
 module.exports = router;
