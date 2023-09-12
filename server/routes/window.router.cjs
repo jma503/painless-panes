@@ -58,10 +58,10 @@ router.post(
 */
 
 router.get("/:projectId", requireAuthenticationMiddleware, async (req, res) => {
-  const user = req.user;
+  const projectId = req.params.projectId;
   try {
-    const project = await query.getListOfWindows(user.projectId);
-    console.log(`Get all windows for project ${user.projectId}:`, project);
+    const project = await query.getListOfWindows(projectId);
+    console.log(`Get all windows for project ${projectId}:`, project);
     res.send(project);
   } catch (error) {
     console.error(error);

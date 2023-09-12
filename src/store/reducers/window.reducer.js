@@ -2,24 +2,24 @@
 // leaving it in in case we do need a window reducer down the road
 
 // action types
-export const UPDATE_WINDOWS = "UPDATE_WINDOWS";
-export const SET_CURRENT_WINDOW = "SET_CURRENT_WINDOW";
+export const SET_ALL_WINDOWS = "SET_ALL_WINDOWS";
+export const SET_CURRENT_WINDOW_ID = "SET_CURRENT_WINDOW_ID";
 
 // action functions
-export const updateWindows = (payload) => {
-  return { type: UPDATE_WINDOWS, payload };
+export const setAllWindows = (payload) => {
+  return { type: SET_ALL_WINDOWS, payload };
 };
 
 // action to set the current window ID
 export const setCurrentWindowId = (payload) => {
-  return { type: SET_CURRENT_WINDOW, payload };
+  return { type: SET_CURRENT_WINDOW_ID, payload };
 };
 
 // reducer
 export function allWindowsReducer(state = [], action) {
   switch (action.type) {
-    case UPDATE_WINDOWS:
-      return [...state, action.payload];
+    case SET_ALL_WINDOWS:
+      return action.payload;
     default:
       return state;
   }
@@ -28,7 +28,7 @@ export function allWindowsReducer(state = [], action) {
 export function currentWindowIdReducer(state = null, action) {
   switch (action.type) {
     // returns the current window's ID via state as an object
-    case SET_CURRENT_WINDOW:
+    case SET_CURRENT_WINDOW_ID:
       return action.payload;
     default:
       return state;
