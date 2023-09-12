@@ -1,4 +1,5 @@
 const pool = require("../modules/pool.cjs");
+const windowQuery = require("./window.query.cjs");
 
 /**
  * Get the latest project for a user
@@ -10,7 +11,7 @@ const lookupLatestProject = async (userId) => {
     SELECT * FROM project WHERE id = (
       SELECT MAX(id) FROM project WHERE user_id = $1
     );
-  `
+  `;
   const queryParams = [userId];
   try {
     const result = await pool.query(queryString, queryParams);
@@ -18,7 +19,7 @@ const lookupLatestProject = async (userId) => {
   } catch (error) {
     throw new Error(error);
   }
-}
+};
 
 /**
  * Create a new project for a user and return the ID
@@ -32,8 +33,14 @@ const addProject = async (userId) => {
   const queryParams = [userId];
   try {
     const result = await pool.query(queryString, queryParams);
-    console.log("New project created:", result.rows[0]);
-    return result.rows[0];
+    const project = result.rows[0];
+    console.log("New project created:", project);
+
+    // Create the starting window for the project. Other windows will be created every
+    // time the user Clicks "Add New Window" on the frontend
+    windowQuery.addWindow(project.id);
+
+    return project;
   } catch (error) {
     throw new Error(error);
   }

@@ -16,7 +16,7 @@ const addWindow = async (projectId) => {
   const QUERY = `INSERT INTO "window" (project_id) 
                  VALUES ($1)
                  RETURNING id;`;
-  const queryParams = [projectId.id];
+  const queryParams = [projectId];
 
   try {
     // the result is the returned ID of the window
