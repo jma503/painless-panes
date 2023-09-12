@@ -5,6 +5,7 @@ import { useState, useEffect } from "react";
 import axios from "axios";
 import actions from "../store/actions";
 import { useDispatch, useSelector } from "react-redux";
+import { readAndCompressImage } from "browser-image-resizer";
 
 export default function AddWindowImage() {
   const dispatch = useDispatch();
@@ -12,35 +13,15 @@ export default function AddWindowImage() {
   const [imgSrc, setImgSrc] = useState(null);
   const [imageList, setImageList] = useState([]);
   const project = useSelector((store) => store.project);
-  // const windowId = useSelector((store) => store.currentWindowId);
+  const user = useSelector((store) => store.user);
 
   // handles sending the image capture to AWS in base64
   const sendPhotoToServer = (event) => {
     event.preventDefault();
-    // dispatch saga to add a window to database and return the window ID
-    // this will be replaced by the window ID when we have that finalized
-    // const formData = new FormData();
-    // formData.append("image", imgSrc);
-    // formData.append("windowId", windowId);
-    // let postUrl = `/api/window/photoUpload/blah`;
+    // when a photo is submitted, the server adds a window to the current project
+    // it then sets the current window ID in the redux store, and also
+    // dispatches a POST request to upload the photo to S3
     dispatch(actions.addWindow({ project_id: project.id, image: imgSrc }));
-    // TODO - this can be handled by a saga
-    // take returned window ID and dispatch an action to upload photo
-    // const response = fetch(postUrl, {
-    //   method: "POST",
-    //   body: imgSrc,
-    // });
-    //   axios
-    //     .post(postUrl, formData)
-    //     .then((response) => {
-    //       console.log("Success!");
-    //       // alert("Success!");
-    //       // clearForm();
-    //     })
-    //     .catch((error) => {
-    //       console.log("error", error);
-    //       // alert("Something went wrong");
-    //     });
   };
 
   const videoConstraints = {
@@ -62,13 +43,14 @@ export default function AddWindowImage() {
 
   const getImages = () => {
     axios
-      .get("/api/window/upload/test")
+      .get(`/api/window/upload/${user.id}`)
       .then((response) => {
+        console.log(response);
         setImageList(response.data);
       })
       .catch((error) => {
         console.log("error", error);
-        alert("Something went wrong");
+        // alert("Something went wrong");
       });
   };
 
@@ -100,18 +82,10 @@ export default function AddWindowImage() {
         text="Click for imageList"
       ></Button>
       {/* {imageList.map((image) => (
-        <div key={image.id}>
-          <div>{image.name}</div>
-          <div>{image.type}</div>
-          <img
-            style={{ maxHeight: "200px" }}
-            src={`api/images/${image.name}`}
-          />
+        <div>
+          <img src={`https://painless-panes.s3.amazonaws.com/${image.Key}`} />
         </div>
       ))} */}
-      <div>
-        <img src={imageList} />
-      </div>
     </>
   );
 }

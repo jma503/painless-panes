@@ -18,6 +18,7 @@ const {
   PutObjectCommand,
   S3Client,
   GetObjectCommand,
+  ListObjectsV2Command,
 } = require("@aws-sdk/client-s3");
 const s3Client = new S3Client({
   accessKeyId: process.env.AWS_ACCESS_KEY_ID,
@@ -69,21 +70,11 @@ router.get("/:projectId", requireAuthenticationMiddleware, async (req, res) => {
 });
 
 router.post(
-  "/photoUpload/blah",
+  `/photoUpload/user`,
   requireAuthenticationMiddleware,
   (req, res) => {
     const imageData = req.body.image;
-    console.log(imageData);
     const windowId = req.body.windowId;
-    console.log(windowId);
-    // --TODO-- since this is a base64 encoding and not an image upload, we
-    // can't use the built-in hash as a filename. will just have to
-    // come up with something else - perhaps the windowId?
-    // const hash = req.files.image.md5;
-    // --TODO-- the image key will contain the folder inside the
-    // painless-panes bucket and the file name (currently test).
-    // the file name should be changed to the unique identifier we decide
-    // to use instead of the hash
     const imageKey = `${req.user.id}/${windowId.id}`; // folder/file
     const command = new PutObjectCommand({
       Bucket: process.env.AWS_BUCKET,
@@ -100,15 +91,18 @@ router.post(
   }
 );
 
-router.get("/upload/test", async (req, res) => {
+router.get("/upload/:userId", async (req, res) => {
+  const userId = req.params.userId;
   try {
-    // const { imageName } = req.params;
-    const command = new GetObjectCommand({
+    const command = new ListObjectsV2Command({
       Bucket: process.env.AWS_BUCKET,
-      Key: `1/test`, // folder/file
+      Prefix: userId,
     });
-    const data = await s3Client.send(command);
-    data.Body.pipe(res);
+    s3Client.send(command).then((response) => {
+      const data = response.Contents;
+      console.log(data);
+      res.send(data).status(200);
+    });
   } catch (error) {
     console.log(error);
     res.sendStatus(500);
