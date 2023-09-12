@@ -19,6 +19,7 @@ export default function FormPageAddImages() {
   return (
     <>
       <FormPageHeader text="Take a photo of the window you desire to have replaced" />
+
       <AddWindowImage />
       <FormPageInput
         placeholder="Window Width"

@@ -36,6 +36,7 @@ router.post(
   requireAuthenticationMiddleware,
   async (req, res) => {
     const projectId = req.params.projectId;
+    console.log(projectId);
     try {
       const windowId = await query.addWindow(projectId);
       res.status(200).send(windowId);
@@ -67,30 +68,37 @@ router.get("/:projectId", requireAuthenticationMiddleware, async (req, res) => {
   }
 });
 
-router.post("/upload/test", requireAuthenticationMiddleware, (req, res) => {
-  const imageData = req.body.image;
-  // --TODO-- since this is a base64 encoding and not an image upload, we
-  // can't use the built-in hash as a filename. will just have to
-  // come up with something else
-  // const hash = req.files.image.md5;
-  // --TODO-- the image key will contain the folder inside the
-  // painless-panes bucket and the file name (currently test).
-  // the file name should be changed to the unique identifier we decide
-  // to use instead of the hash
-  const imageKey = `${req.user.id}/test`; // folder/file
-  const command = new PutObjectCommand({
-    Bucket: process.env.AWS_BUCKET,
-    Key: imageKey, // folder/file
-    Body: imageData, // image data to upload
-  });
+router.post(
+  "/photoUpload/blah",
+  requireAuthenticationMiddleware,
+  (req, res) => {
+    const imageData = req.body.image;
+    console.log(imageData);
+    const windowId = req.body.windowId;
+    console.log(windowId);
+    // --TODO-- since this is a base64 encoding and not an image upload, we
+    // can't use the built-in hash as a filename. will just have to
+    // come up with something else - perhaps the windowId?
+    // const hash = req.files.image.md5;
+    // --TODO-- the image key will contain the folder inside the
+    // painless-panes bucket and the file name (currently test).
+    // the file name should be changed to the unique identifier we decide
+    // to use instead of the hash
+    const imageKey = `${req.user.id}/${windowId.id}`; // folder/file
+    const command = new PutObjectCommand({
+      Bucket: process.env.AWS_BUCKET,
+      Key: imageKey, // folder/file
+      Body: imageData, // image data to upload
+    });
 
-  // send back the md5 hash to store in the database
-  // used for accessing the photos
-  s3Client.send(command).then((response) => {
-    console.log(imageKey);
-    res.send(imageKey).status(200);
-  });
-});
+    // send back the md5 hash to store in the database
+    // used for accessing the photos
+    s3Client.send(command).then((response) => {
+      // console.log(imageKey);
+      res.send(imageKey).status(200);
+    });
+  }
+);
 
 router.get("/upload/test", async (req, res) => {
   try {

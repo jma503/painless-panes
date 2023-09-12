@@ -3,23 +3,33 @@ import Webcam from "react-webcam";
 import Button from "./Button";
 import { useState, useEffect } from "react";
 import axios from "axios";
+import actions from "../store/actions";
+import { useDispatch, useSelector } from "react-redux";
 
 export default function AddWindowImage() {
+  const dispatch = useDispatch();
   // file upload states
-  const [imgSrc, setImgSrc] = React.useState(null);
+  const [imgSrc, setImgSrc] = useState(null);
   const [imageList, setImageList] = useState([]);
+  const project = useSelector((store) => store.project);
+  // const windowId = useSelector((store) => store.currentWindowId);
 
   // handles sending the image capture to AWS in base64
-  const sendPhotoToServer = async (event) => {
+  const sendPhotoToServer = (event) => {
     event.preventDefault();
-    const formData = new FormData();
-    formData.append("image", imgSrc);
-    let postUrl = `/api/window/upload/test`;
-    const response = await fetch(postUrl, {
-      method: "POST",
-      body: formData,
-    });
-    console.log(response.body);
+    // dispatch saga to add a window to database and return the window ID
+    // this will be replaced by the window ID when we have that finalized
+    // const formData = new FormData();
+    // formData.append("image", imgSrc);
+    // formData.append("windowId", windowId);
+    // let postUrl = `/api/window/photoUpload/blah`;
+    dispatch(actions.addWindow({ project_id: project.id, image: imgSrc }));
+    // TODO - this can be handled by a saga
+    // take returned window ID and dispatch an action to upload photo
+    // const response = fetch(postUrl, {
+    //   method: "POST",
+    //   body: imgSrc,
+    // });
     //   axios
     //     .post(postUrl, formData)
     //     .then((response) => {
