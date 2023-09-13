@@ -9,11 +9,13 @@ import {
   allWindowsReducer,
   currentWindowIdReducer,
 } from "./reducers/window.reducer";
+import { framesReducer } from "./reducers/frame.reducer";
 // Import sagas
 import { emailSaga } from "./sagas/email.saga";
 import { userSaga } from "./sagas/user.saga";
 import { projectSaga } from "./sagas/project.saga";
 import { windowSaga } from "./sagas/window.saga";
+import {framesSaga } from "./sagas/frame.saga"
 
 // 1. Create the saga middleware
 const sagaMiddleware = createSagaMiddleware();
@@ -25,13 +27,14 @@ const store = createStore(
     project: projectReducer,
     allWindows: allWindowsReducer,
     currentWindowId: currentWindowIdReducer,
+    frames: framesReducer,
   }),
   applyMiddleware(sagaMiddleware, logger)
 );
 
 // 3. Create the root saga
 function* rootSaga() {
-  yield all([userSaga(), emailSaga(), projectSaga(), windowSaga()]);
+  yield all([userSaga(), emailSaga(), projectSaga(), windowSaga(), framesSaga()]);
 }
 
 // 4. Run the root saga

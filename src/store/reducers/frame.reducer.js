@@ -7,7 +7,7 @@ export const setFrames = (payload) => {
 };
 
 // reducer
-export function framesReducer(state = {}, action) {
+export function framesReducer(state = [], action) {
   if (action.type === SET_FRAMES) {
     return action.payload;
   }
