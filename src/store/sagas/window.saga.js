@@ -5,6 +5,7 @@ import { setAllWindows, setCurrentWindowId } from "../reducers/window.reducer";
 // action types
 export const GET_ALL_WINDOWS = "GET_ALL_WINDOWS";
 export const ADD_WINDOW = "ADD_WINDOW";
+export const UPDATE_WINDOW_DIMENSIONS = "UPDATE_WINDOW_DIMENSIONS";
 
 // action functions
 export const getAllWindows = (payload) => {
@@ -13,6 +14,10 @@ export const getAllWindows = (payload) => {
 
 export const addWindow = (payload) => {
   return { type: ADD_WINDOW, payload };
+};
+
+export const updateWindowDimensions = (payload) => {
+  return { type: UPDATE_WINDOW_DIMENSIONS, payload };
 };
 
 // action worker sagas
@@ -51,8 +56,22 @@ export function* addWindowSaga(action) {
   }
 }
 
+export function* updateWindowDimensionsSaga(action) {
+  const { projectId, width, height } = action.payload;
+  try {
+    const response = yield axios.put(`/api/window/${projectId}`, {
+      width,
+      height,
+    });
+    console.log("Updated window dimensions:", response.data);
+  } catch (error) {
+    console.error("Failed to update window dimensions:", error);
+  }
+}
+
 // watcher saga
 export function* windowSaga() {
   yield takeLatest(GET_ALL_WINDOWS, getAllWindowsSaga);
   yield takeLatest(ADD_WINDOW, addWindowSaga);
+  yield takeLatest(UPDATE_WINDOW_DIMENSIONS, updateWindowDimensions);
 }
