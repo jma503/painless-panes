@@ -70,6 +70,25 @@ router.get("/:projectId", requireAuthenticationMiddleware, async (req, res) => {
   }
 });
 
+/** 
+@api {PUT} /api/window/:projectId to updatethe  width and length of the windows to the project
+@apiSuccess {Object} response The window ID: {“id”: <Number>}
+*/
+router.put("/:projectId", requireAuthenticationMiddleware, async (req, res) => {
+  const projectId = req.params.projectId;
+  try {
+    const updatedWindow = await query.updateWindowDimensions(
+      projectId,
+      width,
+      height
+    );
+    res.status(200).send(updatedWindow);
+  } catch (error) {
+    console.error(error);
+    res.sendStatus(500);
+  }
+});
+
 router.post(`/photoUpload/aws`, requireAuthenticationMiddleware, (req, res) => {
   const imageData = req.files.image.data;
   const imageKey = `${req.user.id}/${req.files.image.md5}`; // folder/file
