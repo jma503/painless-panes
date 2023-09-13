@@ -76,6 +76,20 @@ export function* addWindowPhotoSaga(action) {
   }
 }
 
+export function* updateWindowImage(action) {
+  const windowId = action.payload.id;
+  try {
+    const response = yield axios.put(
+      `/api/window/image/:${windowId}`, action.payload
+    );
+    const windowImage = response.data
+    yield put (setCurrentWindowId(windowImage))
+  }
+  catch (error) {
+    console.error(error);
+  }
+};
+
 // watcher saga
 export function* windowSaga() {
   yield takeLatest(GET_ALL_WINDOWS, getAllWindowsSaga);
