@@ -15,6 +15,11 @@ export default function FormPageAddImages() {
   const [imageWidth, setImageWidth] = useState("");
   const [imageHeight, setImageHeight] = useState("");
 
+  const frameTypes = useSelector(store => store.frames)
+  useEffect(() => {
+    dispatch(actions.getFrames())
+  },[])
+
   return (
     <>
       <FormPageHeader text="Take a photo of the window you desire to have replaced" />
@@ -50,34 +55,41 @@ export default function FormPageAddImages() {
           </form>
           <h3 className="font-bold text-lg">Desired Window Frame</h3>
           <ul className="py-4">
-            <li>
+            {frameTypes.map((frameType) => (
+          
+               <li key={frameType.id}>
               <input type="checkbox" className="checkbox" />
-              <label htmlFor="iamge1"> Casement</label>
-              <img src="/Casement.jpg" alt="Casement" />
-            </li>
-            <li>
+              <label> {frameType.name}</label>
+              <img src={frameType.image} alt={frameType.name}/>
+            </li>  
+            
+            ))} 
+            </ul>    
+               <button className="btn btn-primary">Submit</button>
+         </div>
+            {/* <li>
               <input type="checkbox" className="checkbox" />
-              <label htmlFor="iamge2"> Single or Double hung</label>
+              <label htmlFor="image2"> Single or Double hung</label>
               <img src="/Double_Hung.jpg" alt="Single or Double hung frame" />
             </li>
             <li>
               <input type="checkbox" className="checkbox" />
-              <label htmlFor="iamge3"> Egress (basement)</label>
+              <label> Egress (basement)</label>
               <img src="/Casement.jpg" alt="An egress frame" />
             </li>
             <li>
               <input type="checkbox" className="checkbox" />
-              <label htmlFor="image4"> Bay or bow</label>
+              <label > Bay or bow</label>
               <img src="/Bay.jpg" alt="Bay or bow" />
             </li>
             <li>
               <input type="checkbox" className="checkbox" />
-              <label htmlFor="image5"> Fixed</label>
+              <label> Fixed</label>
               <img src="/Bay.jpg" alt="Fixed" />
             </li>
           </ul>
           <button className="btn btn-primary">Submit</button>
-        </div>
+        </div> */}
       </dialog>
     </>
   );
