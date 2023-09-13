@@ -36,10 +36,13 @@ CREATE TABLE "frame" (
 );			 -- just be a path to a local image
 
 INSERT INTO "frame" (name, description, image)
-VALUES ('Casement', 'A casement frame', './public/Casement.jpg'),
-('Single or double hung', 'A single or double hung frame', './public/Double_Hung.jpg'),
+VALUES 
+('Awning', 'A casement frame', './public/Awning.jpg'),
+('Bay', 'A casement frame', './public/Bay.jpg'),
+('Casement', 'A casement frame', './public/Casement.jpg'),
+('Single hung', 'A single or double hung frame', './public/Single_Hung.jpg'),
+('Double hung', 'A single or double hung frame', './public/Double_Hung.jpg'),
 ('Egress (basement)', 'An egress frame', './public/Casement.jpg'),
-('Bay or bow', 'A bay or bow frame', './public/Bay.jpg'),
 ('Fixed', 'A non-opening frame', './public/.jpg');
 
 -- SELECT * FROM "frame";
