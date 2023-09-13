@@ -22,7 +22,7 @@ export default function FormPageAddImages() {
         <FormPageInput
           placeholder="Window Width"
           value={imageWidth}
-          setValue={setImageWidth}
+          setValue={setImageWidth} 
         />
         <FormPageInput
           placeholder="Window Height"
