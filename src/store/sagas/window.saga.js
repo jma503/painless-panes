@@ -42,22 +42,22 @@ export function* getAllWindowsSaga(action) {
 }
 
 export function* addWindowSaga(action) {
-  const project_id = action.payload.project_id;
+  const project_id = action.payload.get("project_id");
+  const currentWindowId = action.payload.get("current_window_id");
   try {
     const windowIdResponse = yield axios.post(
       `/api/window/${project_id}`,
-      action.payload
+      project_id
     );
     // id of the created window
     const windowId = yield windowIdResponse.data;
     yield put(setCurrentWindowId(windowId));
-    const windowPicToAdd = { image: action.payload.image, windowId: windowId };
     // folder/file of the bucket the image is stored in
     const windowPathResponse = yield axios.post(
       `/api/window/photoUpload/user`,
-      windowPicToAdd
+      action.payload
     );
-    // console.log(windowPathResponse);
+    console.log(windowPathResponse);
     // can then dispatch a put to update the path to the photo in the database
     // with windowPathResponse
   } catch (error) {

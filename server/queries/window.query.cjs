@@ -44,9 +44,27 @@ const getListOfWindows = async (projectId) => {
   }
 };
 
+// holding off on this
+const updateWindow = async (windowData) => {
+  // Query for adding a window - will adjust the values for production
+  // We decided that this will be a POST, then PUTs to update the various params
+  const QUERY = `ALTER TABLE "window" SET "image"=$1 
+                 WHERE "id"=$2;`;
+  const queryParams = [windowData.imagePath, windowData.windowId];
+
+  try {
+    pool.query(QUERY, queryParams);
+    // console.log("Returning new window:", result.rows[0]);
+    // return result.rows[0];
+  } catch (error) {
+    throw new Error(error);
+  }
+};
+
 module.exports = {
   addWindow,
   getListOfWindows,
+  updateWindow,
 };
 
 // addWindow({ id: 1 }).then(console.log);

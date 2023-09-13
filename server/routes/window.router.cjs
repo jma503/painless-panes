@@ -20,6 +20,7 @@ const {
   GetObjectCommand,
   ListObjectsV2Command,
 } = require("@aws-sdk/client-s3");
+
 const s3Client = new S3Client({
   accessKeyId: process.env.AWS_ACCESS_KEY_ID,
   secretAccessKey: process.env.AWS_SECRET_ACCESS_KEY,
@@ -73,9 +74,8 @@ router.post(
   `/photoUpload/user`,
   requireAuthenticationMiddleware,
   (req, res) => {
-    const imageData = req.body.image;
-    const windowId = req.body.windowId;
-    const imageKey = `${req.user.id}/${windowId.id}`; // folder/file
+    const imageData = req.files.image.data;
+    const imageKey = `${req.user.id}/${req.files.image.md5}`; // folder/file
     const command = new PutObjectCommand({
       Bucket: process.env.AWS_BUCKET,
       Key: imageKey, // folder/file
@@ -84,29 +84,42 @@ router.post(
 
     // send back the md5 hash to store in the database
     // used for accessing the photos
-    s3Client.send(command).then((response) => {
-      // console.log(imageKey);
-      res.send(imageKey).status(200);
-    });
+    s3Client
+      .send(command)
+      .then((response) => {
+        // console.log(imageKey);
+        res.send(imageKey).status(200);
+      })
+      .catch((error) => {
+        console.error(error);
+      });
   }
 );
 
-router.get("/upload/:userId", async (req, res) => {
-  const userId = req.params.userId;
-  try {
-    const command = new ListObjectsV2Command({
-      Bucket: process.env.AWS_BUCKET,
-      Prefix: userId,
-    });
-    s3Client.send(command).then((response) => {
-      const data = response.Contents;
-      console.log(data);
-      res.send(data).status(200);
-    });
-  } catch (error) {
-    console.log(error);
-    res.sendStatus(500);
-  }
-});
+// holding off on this
+// router.put(
+//   "/:windowId/:columnToUpdate",
+//   requireAuthenticationMiddleware,
+//   async (req, res) => {
+//     const windowId = req.params.windowId;
+//     const columnToUpdate = req.params.columnToUpdate;
+//     try {
+//       query.updateWindow(req.body);
+//       console.log(`Get all windows for project ${projectId}:`, project);
+//       res.send(project);
+//     } catch (error) {
+//       console.error(error);
+//       res.sendStatus(500);
+//     }
+
+//     pool
+//       .query(QUERY, [req.body.toggle_ext, req.body.expId])
+//       .then((result) => res.sendStatus(200))
+//       .catch((error) => {
+//         console.error(error);
+//         res.sendStatus(500);
+//       });
+//   }
+// );
 
 module.exports = router;
