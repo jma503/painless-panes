@@ -44,9 +44,28 @@ const getListOfWindows = async (projectId) => {
   }
 };
 
+/**
+ * Updates the current window with the path to its image
+ * @param {Object} windowData The project's ID
+ */
+const updateWindow = async (windowData) => {
+  const QUERY = `UPDATE "window" SET image=$1 
+                 WHERE id=$2;`;
+  const queryParams = [windowData.data, windowData.windowId];
+
+  try {
+    pool.query(QUERY, queryParams);
+    console.log(
+      `Updated window ${windowData.windowId} with image path ${windowData.data}`
+    );
+  } catch (error) {
+    throw new Error(error);
+  }
+};
+
 module.exports = {
   addWindow,
   getListOfWindows,
+  updateWindow,
 };
 
-// addWindow({ id: 1 }).then(console.log);

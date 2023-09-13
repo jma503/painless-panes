@@ -5,7 +5,7 @@ import { sendEmail } from "./sagas/email.saga";
 import { getUser } from "./sagas/user.saga";
 import { getProject, updateProjectZipCode } from "./sagas/project.saga";
 import { getFrames } from "./sagas/frame.saga";
-import { getAllWindows, addWindow } from "./sagas/window.saga";
+import { getAllWindows, addWindow, addWindowPhoto } from "./sagas/window.saga";
 
 const actions = {
   // email
@@ -20,6 +20,7 @@ const actions = {
   //window
   getAllWindows,
   addWindow,
+  addWindowPhoto,
 };
 
 export default actions;
