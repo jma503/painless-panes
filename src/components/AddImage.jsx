@@ -2,7 +2,6 @@ import React from "react";
 import Webcam from "react-webcam";
 import Button from "./Button";
 import { useState, useEffect } from "react";
-import axios from "axios";
 import actions from "../store/actions";
 import { useDispatch, useSelector } from "react-redux";
 
@@ -11,9 +10,7 @@ export default function AddWindowImage() {
   // file upload states
   const [imgSrc, setImgSrc] = useState(null);
   const [preview, setPreview] = useState(null);
-  const [imageList, setImageList] = useState([]);
   const project = useSelector((store) => store.project);
-  const user = useSelector((store) => store.user);
   const currentWindowId = useSelector((store) => store.currentWindowId);
 
   // handles sending the image capture to AWS in base64
@@ -27,9 +24,9 @@ export default function AddWindowImage() {
     const formData = new FormData();
     formData.append("image", imgSrc);
     formData.append("project_id", project.id);
-    formData.append("current_window_id", Number(currentWindowId));
+    formData.append("current_window_id", currentWindowId);
     // console.log("FORMDATA", [...formData.entries()]);
-    dispatch(actions.addWindow(formData));
+    dispatch(actions.addWindowPhoto(formData));
   };
 
   const videoConstraints = {
@@ -80,17 +77,6 @@ export default function AddWindowImage() {
       <Button onClick={sendPhotoToServer} text="Submit">
         {" "}
       </Button>
-      <Button
-        onClick={() => {
-          console.log(imageList);
-        }}
-        text="Click for imageList"
-      ></Button>
-      {/* {imageList.map((image) => (
-        <div>
-          <img src={`https://painless-panes.s3.amazonaws.com/${image.Key}`} />
-        </div>
-      ))} */}
     </>
   );
 }

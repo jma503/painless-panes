@@ -62,7 +62,7 @@ router.get("/:projectId", requireAuthenticationMiddleware, async (req, res) => {
   const projectId = req.params.projectId;
   try {
     const project = await query.getListOfWindows(projectId);
-    console.log(`Get all windows for project ${projectId}:`, project);
+    // console.log(`Get all windows for project ${projectId}:`, project);
     res.send(project);
   } catch (error) {
     console.error(error);
@@ -70,31 +70,26 @@ router.get("/:projectId", requireAuthenticationMiddleware, async (req, res) => {
   }
 });
 
-router.post(
-  `/photoUpload/user`,
-  requireAuthenticationMiddleware,
-  (req, res) => {
-    const imageData = req.files.image.data;
-    const imageKey = `${req.user.id}/${req.files.image.md5}`; // folder/file
-    const command = new PutObjectCommand({
-      Bucket: process.env.AWS_BUCKET,
-      Key: imageKey, // folder/file
-      Body: imageData, // image data to upload
-    });
+router.post(`/photoUpload/aws`, requireAuthenticationMiddleware, (req, res) => {
+  const imageData = req.files.image.data;
+  const imageKey = `${req.user.id}/${req.files.image.md5}`; // folder/file
+  const command = new PutObjectCommand({
+    Bucket: process.env.AWS_BUCKET,
+    Key: imageKey, // folder/file
+    Body: imageData, // image data to upload
+  });
 
-    // send back the md5 hash to store in the database
-    // used for accessing the photos
-    s3Client
-      .send(command)
-      .then((response) => {
-        // console.log(imageKey);
-        res.send(imageKey).status(200);
-      })
-      .catch((error) => {
-        console.error(error);
-      });
-  }
-);
+  // send back the bucket path to store in the database
+  // used for accessing the photos
+  s3Client
+    .send(command)
+    .then((response) => {
+      res.send(imageKey).status(200);
+    })
+    .catch((error) => {
+      console.error(error);
+    });
+});
 
 // holding off on this
 // router.put(
