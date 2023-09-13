@@ -9,6 +9,7 @@ import {
   getAllWindows,
   addWindow,
   updateWindowDimensions,
+  addWindowPhoto,
 } from "./sagas/window.saga";
 
 const actions = {
@@ -25,6 +26,7 @@ const actions = {
   getAllWindows,
   addWindow,
   updateWindowDimensions,
+  addWindowPhoto,
 };
 
 export default actions;

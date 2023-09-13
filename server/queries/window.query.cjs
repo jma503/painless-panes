@@ -59,6 +59,25 @@ const updateWindowDimensions = async (projectId, width, height) => {
   try {
     const result = await pool.query(queryString, queryParams);
     return result.rows;
+   } catch (error) {
+    throw new Error(error);
+  }
+};
+
+/**
+ * Updates the current window with the path to its image
+ * @param {Object} windowData The project's ID
+ */
+const updateWindow = async (windowData) => {
+  const QUERY = `UPDATE "window" SET image=$1 
+                 WHERE id=$2;`;
+  const queryParams = [windowData.data, windowData.windowId];
+
+  try {
+    pool.query(QUERY, queryParams);
+    console.log(
+      `Updated window ${windowData.windowId} with image path ${windowData.data}`
+    );
   } catch (error) {
     throw new Error(error);
   }
@@ -68,6 +87,6 @@ module.exports = {
   addWindow,
   getListOfWindows,
   updateWindowDimensions,
+  updateWindow,
 };
 
-// addWindow({ id: 1 }).then(console.log);
