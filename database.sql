@@ -37,13 +37,13 @@ CREATE TABLE "frame" (
 
 INSERT INTO "frame" (name, description, image)
 VALUES 
-('Awning', 'A casement frame', './public/Awning.jpg'),
-('Bay', 'A casement frame', './public/Bay.jpg'),
-('Casement', 'A casement frame', './public/Casement.jpg'),
-('Single hung', 'A single or double hung frame', './public/Single_Hung.jpg'),
-('Double hung', 'A single or double hung frame', './public/Double_Hung.jpg'),
-('Egress (basement)', 'An egress frame', './public/Casement.jpg'),
-('Fixed', 'A non-opening frame', './public/.jpg');
+('Awning', 'A casement frame', '/Awning.jpg'),
+('Bay', 'A casement frame', '/Bay.jpg'),
+('Casement', 'A casement frame', '/Casement.jpg'),
+('Single hung', 'A single or double hung frame', '/Single_Hung.jpg'),
+('Double hung', 'A single or double hung frame', '/Double_Hung.jpg'),
+('Egress (basement)', 'An egress frame', '/Egress.jpg'),
+('Fixed', 'A non-opening frame', '/Fixed.jpg');
 
 -- SELECT * FROM "frame";
 
