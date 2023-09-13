@@ -5,6 +5,7 @@ import { setAllWindows, setCurrentWindowId } from "../reducers/window.reducer";
 // action types
 export const GET_ALL_WINDOWS = "GET_ALL_WINDOWS";
 export const ADD_WINDOW = "ADD_WINDOW";
+export const ADD_WINDOW_PHOTO = "ADD_WINDOW_PHOTO";
 
 // action functions
 export const getAllWindows = (payload) => {
@@ -13,6 +14,10 @@ export const getAllWindows = (payload) => {
 
 export const addWindow = (payload) => {
   return { type: ADD_WINDOW, payload };
+};
+
+export const addWindowPhoto = (payload) => {
+  return { type: ADD_WINDOW_PHOTO, payload };
 };
 
 // action worker sagas
@@ -37,15 +42,35 @@ export function* getAllWindowsSaga(action) {
 }
 
 export function* addWindowSaga(action) {
-  const project_id = action.payload.project_id;
+  const project_id = action.payload.get("project_id");
   try {
-    const response = yield axios.post(
-      `/api/window/:${action.payload.project_id}`,
+    const windowIdResponse = yield axios.post(
+      `/api/window/${project_id}`,
+      project_id
+    );
+    // id of the created window
+    const windowId = yield windowIdResponse.data;
+    yield put(setCurrentWindowId(windowId));
+    e;
+  } catch (error) {
+    console.error(error);
+  }
+}
+
+// generator function to POST an image to AWS S3, then PUT
+// an update to the current window, updating the image column
+// with the AWS suffix
+export function* addWindowPhotoSaga(action) {
+  try {
+    // folder/file of the bucket the image is stored in
+    const windowPathResponse = yield axios.post(
+      `/api/window/photoUpload/aws`,
+      // payload is the formData object from AddImage
       action.payload
     );
-    const windowId = yield response.data;
-    yield put(setCurrentWindowId(windowId));
-    console.log("Window ID from server --> ", windowId);
+    // handles the updating of the image
+    const currentWindowId = yield select((store) => store.currentWindowId);
+    yield axios.put(`/api/window/${currentWindowId}/image`, windowPathResponse);
   } catch (error) {
     console.error(error);
   }
@@ -55,4 +80,5 @@ export function* addWindowSaga(action) {
 export function* windowSaga() {
   yield takeLatest(GET_ALL_WINDOWS, getAllWindowsSaga);
   yield takeLatest(ADD_WINDOW, addWindowSaga);
+  yield takeLatest(ADD_WINDOW_PHOTO, addWindowPhotoSaga);
 }

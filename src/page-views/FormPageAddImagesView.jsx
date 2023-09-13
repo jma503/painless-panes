@@ -7,6 +7,8 @@ import FormPageInput from "../components/FormPageInput";
 import FormPageNavigationButtons from "../components/FormPageNavigationButtons";
 import AddWindowImage from "../components/AddImage";
 import Button from "../components/Button";
+import { readAndCompressImage } from "browser-image-resizer";
+import axios from "axios";
 
 export default function FormPageAddImages() {
   const dispatch = useDispatch();
@@ -23,6 +25,7 @@ export default function FormPageAddImages() {
   return (
     <>
       <FormPageHeader text="Take a photo of the window you desire to have replaced" />
+
       <AddWindowImage />
       <FormPageInput
         placeholder="Window Width"
