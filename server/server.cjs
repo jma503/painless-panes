@@ -32,7 +32,7 @@ app.use(passport.session());
 app.use("/api/email", emailRouter);
 app.use("/api/user", userRouter);
 app.use("/api/window", windowRouter);
-app.use("api/frames", frameRouter);
+app.use("/api/frames", frameRouter);
 app.use("/api/project", projectRouter);
 
 // Serve static files
