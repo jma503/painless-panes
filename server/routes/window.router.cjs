@@ -91,30 +91,24 @@ router.post(`/photoUpload/aws`, requireAuthenticationMiddleware, (req, res) => {
     });
 });
 
-// holding off on this
-// router.put(
-//   "/:windowId/:columnToUpdate",
-//   requireAuthenticationMiddleware,
-//   async (req, res) => {
-//     const windowId = req.params.windowId;
-//     const columnToUpdate = req.params.columnToUpdate;
-//     try {
-//       query.updateWindow(req.body);
-//       console.log(`Get all windows for project ${projectId}:`, project);
-//       res.send(project);
-//     } catch (error) {
-//       console.error(error);
-//       res.sendStatus(500);
-//     }
-
-//     pool
-//       .query(QUERY, [req.body.toggle_ext, req.body.expId])
-//       .then((result) => res.sendStatus(200))
-//       .catch((error) => {
-//         console.error(error);
-//         res.sendStatus(500);
-//       });
-//   }
-// );
+/**
+ * Update the specified column for the specified window
+ * @param {Object} windowPathResponse A string containing the folder/file name of the path to the image in AWS S3
+ *   'folder/file/ <String>
+ */router.put(
+  "/:windowId/:columnToUpdate",
+  requireAuthenticationMiddleware,
+  async (req, res) => {
+    const windowId = req.params.windowId;
+    const columnToUpdate = req.params.columnToUpdate;
+    try {
+      query.updateWindow({ ...req.body, windowId, columnToUpdate });
+      res.sendStatus(200);
+    } catch (error) {
+      console.error(error);
+      res.sendStatus(500);
+    }
+  }
+);
 
 module.exports = router;

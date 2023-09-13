@@ -57,18 +57,20 @@ export function* addWindowSaga(action) {
   }
 }
 
+// generator function to POST an image to AWS S3, then PUT
+// an update to the current window, updating the image column
+// with the AWS suffix
 export function* addWindowPhotoSaga(action) {
-  const project_id = action.payload.get("project_id");
-  // const currentWindowId = action.payload.get("current_window_id");
   try {
     // folder/file of the bucket the image is stored in
     const windowPathResponse = yield axios.post(
       `/api/window/photoUpload/aws`,
+      // payload is the formData object from AddImage
       action.payload
     );
-    console.log(windowPathResponse.data);
-    // can then dispatch a put to update the path to the photo in the database
-    // with windowPathResponse
+    // handles the updating of the image
+    const currentWindowId = yield select((store) => store.currentWindowId);
+    yield axios.put(`/api/window/${currentWindowId}/image`, windowPathResponse);
   } catch (error) {
     console.error(error);
   }

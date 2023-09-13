@@ -44,18 +44,20 @@ const getListOfWindows = async (projectId) => {
   }
 };
 
-// holding off on this
+/**
+ * Updates the current window with the path to its image
+ * @param {Object} windowData The project's ID
+ */
 const updateWindow = async (windowData) => {
-  // Query for adding a window - will adjust the values for production
-  // We decided that this will be a POST, then PUTs to update the various params
-  const QUERY = `ALTER TABLE "window" SET "image"=$1 
-                 WHERE "id"=$2;`;
-  const queryParams = [windowData.imagePath, windowData.windowId];
+  const QUERY = `UPDATE "window" SET image=$1 
+                 WHERE id=$2;`;
+  const queryParams = [windowData.data, windowData.windowId];
 
   try {
     pool.query(QUERY, queryParams);
-    // console.log("Returning new window:", result.rows[0]);
-    // return result.rows[0];
+    console.log(
+      `Updated window ${windowData.windowId} with image path ${windowData.data}`
+    );
   } catch (error) {
     throw new Error(error);
   }
@@ -67,4 +69,3 @@ module.exports = {
   updateWindow,
 };
 
-// addWindow({ id: 1 }).then(console.log);
