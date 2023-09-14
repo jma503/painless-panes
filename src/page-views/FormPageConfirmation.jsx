@@ -11,12 +11,6 @@ export default function FormPageConfirmation() {
   const dispatch = useDispatch();
   const windows = useSelector((store) => store.allWindows);
   const frameTypes = useSelector((store) => store.frames);
-  if (windows.length && frameTypes.length) {
-    console.log(windows, "windows");
-    console.log(frameTypes, "frames");
-    console.log(windows[0].desired_frame_id, "desired frame");
-    console.log(frameTypes[ + windows[0].desired_frame_id], "frame type");
-  }
 
   return (
     <>
