@@ -29,12 +29,12 @@ export function* getProjectSaga() {
 }
 
 //action functions
-export const getAllProject = () => {
+export const getAllProjects = () => {
   return { type: GET_ALL_PROJECTS };
 };
 
 //action worker sagas
-export function* getAllProjectSaga() {
+export function* getAllProjectsSaga() {
   try {
     const response = yield axios.get("/api/project/all");
     const project = yield response.data;

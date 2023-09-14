@@ -29,13 +29,11 @@ const lookupLatestProject = async (userId) => {
 
 const getAllProjects = async (userId) => {
   const queryString = `
-    SELECT * FROM project WHERE user_id = $1
-    );
-  `;
+    SELECT * FROM project WHERE user_id = $1;`;
   const queryParams = [userId];
   try {
     const result = await pool.query(queryString, queryParams);
-    return result.rows[0];
+    return result.rows;
   } catch (error) {
     throw new Error(error);
   }
