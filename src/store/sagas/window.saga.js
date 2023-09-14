@@ -7,6 +7,7 @@ export const GET_ALL_WINDOWS = "GET_ALL_WINDOWS";
 export const ADD_WINDOW = "ADD_WINDOW";
 export const UPDATE_WINDOW_DIMENSIONS = "UPDATE_WINDOW_DIMENSIONS";
 export const ADD_WINDOW_PHOTO = "ADD_WINDOW_PHOTO";
+export const UPDATE_WINDOW_FRAME = "UPDATE_WINDOW_FRAME";
 
 // action functions
 export const getAllWindows = (payload) => {
@@ -23,6 +24,10 @@ export const updateWindowDimensions = (payload) => {
 
 export const addWindowPhoto = (payload) => {
   return { type: ADD_WINDOW_PHOTO, payload };
+};
+
+export const updateWindowFrame = (payload) => {
+  return { type: UPDATE_WINDOW_FRAME, payload };
 };
 
 // action worker sagas
@@ -100,15 +105,14 @@ export function* updateWindowDimensionsSaga(action) {
   }
 }
 
-export function* updateWindowImageSaga(action) {
-  const windowId = action.payload.id;
+export function* updateWindowFrameSaga(action) {
+  const currentWindowId = action.payload.currentWindowId;
+  const frameId = action.payload.frameType;
   try {
     const response = yield axios.put(
-      `/api/window/image/${windowId}`,
-      action.payload
+      `/api/window/${currentWindowId}/desired_frame_id`,
+      { desiredFrameId: frameId }
     );
-    const windowImage = response.data;
-    yield put(setCurrentWindowId(windowImage));
   } catch (error) {
     console.error(error);
   }
@@ -120,4 +124,5 @@ export function* windowSaga() {
   yield takeLatest(ADD_WINDOW, addWindowSaga);
   yield takeLatest(UPDATE_WINDOW_DIMENSIONS, updateWindowDimensionsSaga);
   yield takeLatest(ADD_WINDOW_PHOTO, addWindowPhotoSaga);
+  yield takeLatest(UPDATE_WINDOW_FRAME, updateWindowFrameSaga);
 }

@@ -104,6 +104,8 @@ router.post(`/photoUpload/aws`, requireAuthenticationMiddleware, (req, res) => {
     try {
       if (columnToUpdate === "height" || columnToUpdate === "width") {
         query.updateWindowDimensions(windowId, columnToUpdate, req.body);
+      } else if (columnToUpdate === "desired_frame_id") {
+        query.updateWindowDimensions(windowId, columnToUpdate, req.body);
       } else {
         query.updateWindowPhoto({ ...req.body, windowId });
       }
