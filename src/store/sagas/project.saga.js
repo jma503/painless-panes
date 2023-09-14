@@ -60,6 +60,6 @@ export function* updateProjectZipCodeSaga(action) {
 //watcher saga
 export function* projectSaga() {
   yield takeLatest(GET_PROJECT, getProjectSaga);
-  yield takeLatest(GET_ALL_PROJECTS, getAllProjectSaga);
+  yield takeLatest(GET_ALL_PROJECTS, getAllProjectsSaga);
   yield takeLatest(UPDATE_PROJECT_ZIP_CODE, updateProjectZipCodeSaga);
 }
