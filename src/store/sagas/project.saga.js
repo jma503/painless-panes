@@ -1,10 +1,11 @@
 import axios from "axios";
 import { put, select, takeLatest } from "redux-saga/effects";
-import { setProject } from "../reducers/project.reducer";
+import { setProject, setAllProjects } from "../reducers/project.reducer";
 
 /** 1. CURRENT PROJECT SAGAS **/
 //action types
 const GET_PROJECT = "GET_PROJECT";
+const GET_ALL_PROJECTS = "GET_ALL_PROJECTS"
 const UPDATE_PROJECT_ZIP_CODE = "UPDATE_PROJECT_ZIP_CODE";
 
 //action functions
@@ -27,6 +28,23 @@ export function* getProjectSaga() {
   }
 }
 
+//action functions
+export const getAllProject = () => {
+  return { type: GET_ALL_PROJECTS };
+};
+
+//action worker sagas
+export function* getAllProjectSaga() {
+  try {
+    const response = yield axios.get("/api/project/all");
+    const project = yield response.data;
+    yield put(setAllProjects(project));
+  } catch (error) {
+    console.error(error);
+  }
+}
+
+
 export function* updateProjectZipCodeSaga(action) {
   try {
     const project = yield select((store) => store.project);
@@ -42,5 +60,6 @@ export function* updateProjectZipCodeSaga(action) {
 //watcher saga
 export function* projectSaga() {
   yield takeLatest(GET_PROJECT, getProjectSaga);
+  yield takeLatest(GET_ALL_PROJECTS, getAllProjectSaga);
   yield takeLatest(UPDATE_PROJECT_ZIP_CODE, updateProjectZipCodeSaga);
 }

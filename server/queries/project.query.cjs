@@ -22,6 +22,26 @@ const lookupLatestProject = async (userId) => {
 };
 
 /**
+ * Get all projects for a user
+ * @param {Number} userId The user's ID
+ * @returns {Object} The project row
+ */
+
+const getAllProjects = async (userId) => {
+  const queryString = `
+    SELECT * FROM project WHERE user_id = $1
+    );
+  `;
+  const queryParams = [userId];
+  try {
+    const result = await pool.query(queryString, queryParams);
+    return result.rows[0];
+  } catch (error) {
+    throw new Error(error);
+  }
+};
+
+/**
  * Create a new project for a user and return the ID
  * @param {Number} userId The user's ID
  * @returns {Object} The project row
@@ -71,4 +91,5 @@ module.exports = {
   lookupLatestProject,
   addProject,
   updateZipCode,
+  getAllProjects,
 };

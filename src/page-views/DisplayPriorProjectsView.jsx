@@ -2,7 +2,20 @@ import {useSelector } from "react-redux";
 import FormPageHeader from "../components/FormPageHeader";
 
 export default function myProjectsView() {
-  const projectWindows = useSelector((store) => store.project);
+  const projectWindows = useSelector((store) => store.projects);
+
+  const getAllProjectsData = () => {
+    axios.get('/api/project/all').then(response => {
+      dispatch({ type: 'SET_PROJECTS', payload: response.data });
+    })
+      .catch(error => {
+        console.log('error with get all projects request', error);
+      });
+  }
+
+  useEffect(() => {
+    getAllProjectsData();
+  }, []);
 
   return (
     <>
