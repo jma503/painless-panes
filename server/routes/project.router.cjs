@@ -29,7 +29,7 @@ router.get("/latest", requireAuthenticationMiddleware, async (req, res) => {
  * @api {GET} /api/project/all Get all projects for the current user
  *
  * @apiSuccess {Object} response all of the user's projects:
- *   {"id": <Number>, "zip": <String>, "user_id": <Number>, "image": <Text>, "Width": "Number", "Height": "Number"}
+ *   {"id": <Number>, "zip": <String>, "user_id": <Number>}
  */
 router.get("/all", requireAuthenticationMiddleware, async (req, res) => {
   const user = req.user;
