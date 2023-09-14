@@ -98,7 +98,7 @@ export function* updateWindowImage(action) {
   const windowId = action.payload.id;
   try {
     const response = yield axios.put(
-      `/api/window/image/:${windowId}`, action.payload
+      `/api/window/image/${windowId}`, action.payload
     );
     const windowImage = response.data
     yield put (setCurrentWindowId(windowImage))
