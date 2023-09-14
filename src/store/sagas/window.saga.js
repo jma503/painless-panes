@@ -7,6 +7,7 @@ export const GET_ALL_WINDOWS = "GET_ALL_WINDOWS";
 export const ADD_WINDOW = "ADD_WINDOW";
 export const UPDATE_WINDOW_DIMENSIONS = "UPDATE_WINDOW_DIMENSIONS";
 export const ADD_WINDOW_PHOTO = "ADD_WINDOW_PHOTO";
+export const UPDATE_WINDOW_FRAME = "UPDATE_WINDOW_FRAME";
 
 // action functions
 export const getAllWindows = (payload) => {
@@ -23,6 +24,10 @@ export const updateWindowDimensions = (payload) => {
 
 export const addWindowPhoto = (payload) => {
   return { type: ADD_WINDOW_PHOTO, payload };
+};
+
+export const updateWindowFrame = (payload) => {
+  return { type: UPDATE_WINDOW_FRAME, payload };
 };
 
 // action worker sagas
@@ -82,37 +87,42 @@ export function* addWindowPhotoSaga(action) {
 }
 
 export function* updateWindowDimensionsSaga(action) {
-  const { projectId, width, height } = action.payload;
+  const { currentWindowId, imageWidth, imageHeight } = action.payload;
   try {
-    const response = yield axios.put(`/api/window/${projectId}`, {
-      width,
-      height,
-    });
-    console.log("Updated window dimensions:", response.data);
+    const heightResponse = yield axios.put(
+      `/api/window/${currentWindowId}/height`,
+      { height: imageWidth }
+    );
+    const widthResponse = yield axios.put(
+      `/api/window/${currentWindowId}/width`,
+      {
+        width: imageHeight,
+      }
+    );
+    // console.log("Updated window dimensions:", heightResponse, widthResponse);
   } catch (error) {
     console.error("Failed to update window dimensions:", error);
   }
 }
 
-export function* updateWindowImage(action) {
-  const windowId = action.payload.id;
+export function* updateWindowFrameSaga(action) {
+  const currentWindowId = action.payload.currentWindowId;
+  const frameId = action.payload.frameType;
   try {
     const response = yield axios.put(
-      `/api/window/image/${windowId}`, action.payload
+      `/api/window/${currentWindowId}/desired_frame_id`,
+      { desiredFrameId: frameId }
     );
-    const windowImage = response.data
-    yield put (setCurrentWindowId(windowImage))
-  }
-  catch (error) {
+  } catch (error) {
     console.error(error);
   }
-};
-
+}
 
 // watcher saga
 export function* windowSaga() {
   yield takeLatest(GET_ALL_WINDOWS, getAllWindowsSaga);
   yield takeLatest(ADD_WINDOW, addWindowSaga);
-  yield takeLatest(UPDATE_WINDOW_DIMENSIONS, updateWindowDimensions);
+  yield takeLatest(UPDATE_WINDOW_DIMENSIONS, updateWindowDimensionsSaga);
   yield takeLatest(ADD_WINDOW_PHOTO, addWindowPhotoSaga);
+  yield takeLatest(UPDATE_WINDOW_FRAME, updateWindowFrameSaga);
 }

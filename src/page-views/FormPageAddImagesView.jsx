@@ -6,19 +6,32 @@ import FormPageHeader from "../components/FormPageHeader";
 import FormPageInput from "../components/FormPageInput";
 import FormPageNavigationButtons from "../components/FormPageNavigationButtons";
 import AddWindowImage from "../components/AddImage";
-import Button from "../components/Button";
-import { readAndCompressImage } from "browser-image-resizer";
-import axios from "axios";
+import {
+  updateWindowDimensions,
+  updateWindowFrame,
+} from "../store/sagas/window.saga";
 
 export default function FormPageAddImages() {
   const dispatch = useDispatch();
-  const project = useSelector((store) => store.project);
-  const [image, setImage] = useState("");
+  const currentWindowId = useSelector((store) => store.currentWindowId);
   const [imageWidth, setImageWidth] = useState("");
   const [imageHeight, setImageHeight] = useState("");
+  const [frameType, setFrameType] = useState(null);
 
-  const frameTypes = useSelector(store => store.frames);
+  const frameTypes = useSelector((store) => store.frames);
+  useEffect(() => {
+    dispatch(actions.getFrames());
+  }, []);
 
+  const saveDimensions = () => {
+    const dimensionsToSend = { currentWindowId, imageWidth, imageHeight };
+    dispatch(updateWindowDimensions(dimensionsToSend));
+  };
+
+  const updateFrameType = () => {
+    const frameToSend = { currentWindowId, frameType };
+    dispatch(updateWindowFrame(frameToSend));
+  };
 
   return (
     <>
@@ -44,53 +57,41 @@ export default function FormPageAddImages() {
         className="btn"
         onClick={() => document.getElementById("my_modal_3").showModal()}
       >
-      List of Window Frames
+        List of Window Frames
+      </button>
+      <button className="btn" onClick={saveDimensions}>
+        Save Dimensions
       </button>
       <dialog id="my_modal_3" className="modal">
         <div className="modal-box">
           <form method="dialog">
             {/* if there is a button in form, it will close the modal */}
-            <button className="btn btn-sm btn-circle btn-ghost absolute right-2 top-2">
+            <button
+              onClick={updateFrameType}
+              className="btn btn-sm btn-circle btn-ghost absolute right-2 top-2"
+            >
               ✕
             </button>
           </form>
           <h3 className="font-bold text-lg">Desired Window Frame</h3>
           <ul className="py-4">
+            {/* --TODO-- Ensure that the user can only select one frame at a time */}
             {frameTypes.map((frameType) => (
-          
-               <li key={frameType.id}>
-              <input type="checkbox" className="checkbox" />
-              <label> {frameType.name}</label>
-              <img src={frameType.image} alt={frameType.name}/>
-            </li>  
-            
-            ))} 
-            </ul>    
-               <button className="btn btn-primary">Submit</button>
-         </div>
-            {/* <li>
-              <input type="checkbox" className="checkbox" />
-              <label htmlFor="image2"> Single or Double hung</label>
-              <img src="/Double_Hung.jpg" alt="Single or Double hung frame" />
-            </li>
-            <li>
-              <input type="checkbox" className="checkbox" />
-              <label> Egress (basement)</label>
-              <img src="/Casement.jpg" alt="An egress frame" />
-            </li>
-            <li>
-              <input type="checkbox" className="checkbox" />
-              <label > Bay or bow</label>
-              <img src="/Bay.jpg" alt="Bay or bow" />
-            </li>
-            <li>
-              <input type="checkbox" className="checkbox" />
-              <label> Fixed</label>
-              <img src="/Bay.jpg" alt="Fixed" />
-            </li>
+              <li key={frameType.id}>
+                <input
+                  onChange={(event) => {
+                    console.log(frameType.id);
+                    setFrameType(frameType.id);
+                  }}
+                  type="checkbox"
+                  className="checkbox"
+                />
+                <label> {frameType.name}</label>
+                <img src={frameType.image} alt={frameType.name} />
+              </li>
+            ))}
           </ul>
-          <button className="btn btn-primary">Submit</button>
-        </div> */}
+        </div>
       </dialog>
     </>
   );
