@@ -53,7 +53,7 @@ Command line
 1. Install AWS CLI (`https://docs.aws.amazon.com/cli/latest/userguide/getting-started-install.html`)
 2. Add a profile: `aws configure --profile painless-panes-dev`
 3. Run `export AWS_PROFILE=painless-panes-dev`
-4. Run `aws s3 ls s3://painless-panes/*YOUR USER ID HERE*`
+4. Run `aws s3 ls s3://painless-panes/*YOUR USER ID HERE*/` (don't forget the slash at the end)
 
 Console
 
