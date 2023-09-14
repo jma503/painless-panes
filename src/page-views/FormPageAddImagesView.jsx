@@ -17,10 +17,8 @@ export default function FormPageAddImages() {
   const [imageWidth, setImageWidth] = useState("");
   const [imageHeight, setImageHeight] = useState("");
 
-  const frameTypes = useSelector(store => store.frames)
-  useEffect(() => {
-    dispatch(actions.getFrames())
-  },[])
+  const frameTypes = useSelector(store => store.frames);
+
 
   return (
     <>
