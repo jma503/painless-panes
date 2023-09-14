@@ -4,7 +4,7 @@ import { all } from "redux-saga/effects";
 import logger from "redux-logger";
 // Import reducers
 import { userReducer } from "./reducers/user.reducer";
-import { projectReducer } from "./reducers/project.reducer";
+import { projectReducer, allProjectsReducer } from "./reducers/project.reducer";
 import {
   allWindowsReducer,
   currentWindowIdReducer,
@@ -15,7 +15,7 @@ import { emailSaga } from "./sagas/email.saga";
 import { userSaga } from "./sagas/user.saga";
 import { projectSaga } from "./sagas/project.saga";
 import { windowSaga } from "./sagas/window.saga";
-import {framesSaga } from "./sagas/frame.saga"
+import { framesSaga } from "./sagas/frame.saga";
 
 // 1. Create the saga middleware
 const sagaMiddleware = createSagaMiddleware();
@@ -25,6 +25,7 @@ const store = createStore(
   combineReducers({
     user: userReducer,
     project: projectReducer,
+    projects: allProjectsReducer,
     allWindows: allWindowsReducer,
     currentWindowId: currentWindowIdReducer,
     frames: framesReducer,
@@ -34,7 +35,13 @@ const store = createStore(
 
 // 3. Create the root saga
 function* rootSaga() {
-  yield all([userSaga(), emailSaga(), projectSaga(), windowSaga(), framesSaga()]);
+  yield all([
+    userSaga(),
+    emailSaga(),
+    projectSaga(),
+    windowSaga(),
+    framesSaga(),
+  ]);
 }
 
 // 4. Run the root saga
