@@ -103,11 +103,18 @@ router.post(`/photoUpload/aws`, requireAuthenticationMiddleware, (req, res) => {
     const columnToUpdate = req.params.columnToUpdate;
     try {
       if (columnToUpdate === "height" || columnToUpdate === "width") {
-        query.updateWindowDimensions(windowId, columnToUpdate, req.body);
+        query.updateWindow(windowId, columnToUpdate, req.body);
       } else if (columnToUpdate === "desired_frame_id") {
-        query.updateWindowDimensions(windowId, columnToUpdate, req.body);
+        console.log(req.body);
+        query.updateWindow(windowId, columnToUpdate, {
+          desiredFrameId: Number(req.body.desiredFrameId),
+        });
       } else {
-        query.updateWindowPhoto({ ...req.body, windowId });
+        const bodyToSend = req.body.data;
+        console.log(bodyToSend);
+        query.updateWindow(windowId, columnToUpdate, {
+          imagePath: bodyToSend,
+        });
       }
       res.sendStatus(200);
     } catch (error) {
