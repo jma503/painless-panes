@@ -10,6 +10,7 @@ export default function AddWindowImage() {
   // file upload states
   const [imgSrc, setImgSrc] = useState(null);
   const [preview, setPreview] = useState(null);
+  const [verifyImage, setVerifyImage] = useState(0);
   const project = useSelector((store) => store.project);
   const currentWindowId = useSelector((store) => store.currentWindowId);
 
@@ -27,6 +28,7 @@ export default function AddWindowImage() {
     formData.append("current_window_id", currentWindowId);
     // console.log("FORMDATA", [...formData.entries()]);
     dispatch(actions.addWindowPhoto(formData));
+    setVerifyImage(null);
   };
 
   const videoConstraints = {
@@ -53,6 +55,7 @@ export default function AddWindowImage() {
   // event handler for taking a picture and updating the imgSrc state to the
   // base64 value of the image
   const capture = React.useCallback(() => {
+    setVerifyImage(true);
     const imageSrc = webcamRef.current.getScreenshot();
     setPreview(imageSrc);
     const imageBlob = dataURItoBlob(imageSrc);
@@ -62,21 +65,33 @@ export default function AddWindowImage() {
 
   return (
     <>
-      <Webcam
-        audio={false}
-        height={720}
-        ref={webcamRef}
-        screenshotFormat="image/jpeg"
-        width={1280}
-        videoConstraints={videoConstraints}
-      />
-      {preview && <img src={preview} />}
-      <Button onClick={capture} text="Capture Image">
-        {" "}
-      </Button>
-      <Button onClick={sendPhotoToServer} text="Submit">
-        {" "}
-      </Button>
+      {!preview && (
+        <Webcam
+          audio={false}
+          height={720}
+          ref={webcamRef}
+          screenshotFormat="image/jpeg"
+          width={1280}
+          videoConstraints={videoConstraints}
+        />
+      )}
+      {preview && (
+        <>
+          <p>Preview:</p>
+          <img src={preview} />
+          {verifyImage && <Button onClick={sendPhotoToServer} text="Save" />}
+          {verifyImage && (
+            <Button
+              onClick={() => {
+                setPreview(null);
+                setVerifyImage(null);
+              }}
+              text="Retake"
+            />
+          )}
+        </>
+      )}
+      {!preview && <Button onClick={capture} text="Capture Image" />}
     </>
   );
 }
