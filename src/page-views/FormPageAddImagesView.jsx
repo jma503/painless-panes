@@ -56,17 +56,12 @@ export default function FormPageAddImages() {
       {imageWidth && imageHeight && !dimensionsStatus && (
         <Button onClick={saveDimensions} text="Save Dimensions" />
       )}
-      <FormPageButtonsContainer>
-        <FormPageNavigationButtons page={4} />
-      </FormPageButtonsContainer>
-
       {/* You can open the modal using document.getElementById('ID').showModal() method */}
-      <button
+      <Button
         className="btn"
         onClick={() => document.getElementById("my_modal_3").showModal()}
-      >
-        List of Window Frames
-      </button>
+        text="Click to choose desired frame"
+      ></Button>
       <dialog id="my_modal_3" className="modal">
         <div className="modal-box">
           <form method="dialog">
@@ -75,7 +70,7 @@ export default function FormPageAddImages() {
               onClick={updateFrameType}
               className="btn btn-sm btn-circle btn-ghost absolute right-2 top-2"
             >
-              ✕
+              Save
             </button>
           </form>
           <h3 className="font-bold text-lg">Desired Window Frame</h3>
@@ -98,6 +93,9 @@ export default function FormPageAddImages() {
           </ul>
         </div>
       </dialog>
+      <FormPageButtonsContainer>
+        <FormPageNavigationButtons page={4} />
+      </FormPageButtonsContainer>
     </>
   );
 }
