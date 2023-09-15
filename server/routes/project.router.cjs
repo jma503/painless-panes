@@ -24,6 +24,26 @@ router.get("/latest", requireAuthenticationMiddleware, async (req, res) => {
   }
 });
 
+
+/**
+ * @api {GET} /api/project/all Get all projects for the current user
+ *
+ * @apiSuccess {Object} response all of the user's projects:
+ *   {"id": <Number>, "zip": <String>, "user_id": <Number>, "image": <Text>, "Width": "Number", "Height": "Number"}
+ */
+router.get("/all", requireAuthenticationMiddleware, async (req, res) => {
+  const user = req.user;
+  try {
+    const project = await query.getAllProjects(user.id);
+    console.log(`Latest project for user ${user.id}:`, project);
+    res.send(project);
+  } catch (error) {
+    console.error(error);
+    res.sendStatus(500);
+  }
+});
+
+
 /**
  * @api {PUT} /api/project/zip/:projectId Set the zip code for a project
  *
