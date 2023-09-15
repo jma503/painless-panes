@@ -11,20 +11,29 @@ export default function FormPageConfirmation() {
   const dispatch = useDispatch();
   const windows = useSelector((store) => store.allWindows);
   const frameTypes = useSelector((store) => store.frames);
+  const [windowToEdit, setWindowToEdit] = useState(null);
 
   return (
     <>
       <FormPageHeader text="Confirmation Page" />
-      <div className="card w-96 glass">
-        <h2 className="card-title">Review Submission!</h2>
+      <div className="card w-102 bg-base-100 shadow-xl p-2 m-2">
+        <h2 className="card-title justify-center">Review Submission!</h2>
         {windows.map((window) => (
-          <div key={window.id}>
+          <div
+            className="card w-102 bg-base-100 shadow-xl border-solid border-2 p-2 m-2"
+            key={window.id}
+          >
             <figure>
-              <img src={`https://painless-panes.s3.amazonaws.com/${window.image}`} alt="window!" />
+              <img
+                src={`https://painless-panes.s3.amazonaws.com/${window.image}`}
+                alt="window!"
+              />
             </figure>
-            <p>{window.height}</p>
-            <p>{window.width}</p>
-            {/* <img src={frameTypes[window.desired_frame_id].image} /> */}
+            <div className="card-body items-center text-center">
+              <p>Height: {window.height}</p>
+              <p>Width: {window.width}</p>
+              <p>Desired frame: {frameTypes[window.desired_frame_id].name}</p>
+            </div>
           </div>
         ))}
         <div className="card-body">
