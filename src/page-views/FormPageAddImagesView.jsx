@@ -10,6 +10,7 @@ import {
   updateWindowDimensions,
   updateWindowFrame,
 } from "../store/sagas/window.saga";
+import Button from "../components/Button";
 
 export default function FormPageAddImages() {
   const dispatch = useDispatch();
@@ -48,6 +49,9 @@ export default function FormPageAddImages() {
         value={imageHeight}
         setValue={setImageHeight}
       />
+      {imageWidth && imageHeight && (
+        <Button onClick={saveDimensions} text="Save Dimensions" />
+      )}
       <FormPageButtonsContainer>
         <FormPageNavigationButtons page={4} />
       </FormPageButtonsContainer>
@@ -59,9 +63,9 @@ export default function FormPageAddImages() {
       >
         List of Window Frames
       </button>
-      <button className="btn" onClick={saveDimensions}>
+      {/* <button className="btn" onClick={saveDimensions}>
         Save Dimensions
-      </button>
+      </button> */}
       <dialog id="my_modal_3" className="modal">
         <div className="modal-box">
           <form method="dialog">
