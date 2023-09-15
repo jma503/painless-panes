@@ -3,6 +3,7 @@ export default function FormPageInput({
   value,
   setValue,
   type = "text",
+  status,
 }) {
   return (
     <input
@@ -11,6 +12,7 @@ export default function FormPageInput({
       value={value}
       onChange={(event) => setValue(event.target.value)}
       className="input input-bordered mb-2"
+      disabled={false || status}
     />
   );
 }

@@ -18,6 +18,7 @@ export default function FormPageAddImages() {
   const [imageWidth, setImageWidth] = useState("");
   const [imageHeight, setImageHeight] = useState("");
   const [frameType, setFrameType] = useState(null);
+  const [dimensionsStatus, setDimensionsStatus] = useState(false);
 
   const frameTypes = useSelector((store) => store.frames);
   useEffect(() => {
@@ -27,6 +28,7 @@ export default function FormPageAddImages() {
   const saveDimensions = () => {
     const dimensionsToSend = { currentWindowId, imageWidth, imageHeight };
     dispatch(updateWindowDimensions(dimensionsToSend));
+    setDimensionsStatus(true);
   };
 
   const updateFrameType = () => {
@@ -43,13 +45,15 @@ export default function FormPageAddImages() {
         placeholder="Window Width"
         value={imageWidth}
         setValue={setImageWidth}
+        status={dimensionsStatus}
       />
       <FormPageInput
         placeholder="Window Height"
         value={imageHeight}
         setValue={setImageHeight}
+        status={dimensionsStatus}
       />
-      {imageWidth && imageHeight && (
+      {imageWidth && imageHeight && !dimensionsStatus && (
         <Button onClick={saveDimensions} text="Save Dimensions" />
       )}
       <FormPageButtonsContainer>
@@ -63,9 +67,6 @@ export default function FormPageAddImages() {
       >
         List of Window Frames
       </button>
-      {/* <button className="btn" onClick={saveDimensions}>
-        Save Dimensions
-      </button> */}
       <dialog id="my_modal_3" className="modal">
         <div className="modal-box">
           <form method="dialog">
