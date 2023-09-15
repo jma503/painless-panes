@@ -1,11 +1,14 @@
-import {useSelector } from "react-redux";
+import {useSelector, useDispatch } from "react-redux";
+import { useEffect } from "react";
 import FormPageHeader from "../components/FormPageHeader";
+import actions from "../store/actions"
 
-export default function myProjectsView() {
+export default function PriorProjectsPage() {
   const projectWindows = useSelector((store) => store.projects);
+    const dispatch = useDispatch();
 
   useEffect(() => {
-    getAllProjectsData();
+   dispatch(actions.getAllProjects());
   }, []);
 
   return (

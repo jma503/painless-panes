@@ -29,20 +29,12 @@ export function* getProjectSaga() {
 }
 
 //action functions
-<<<<<<< HEAD
 export const getAllProjects = () => {
-=======
-export const getAllProject = () => {
->>>>>>> a7890c5b25b811cd017f9f8af5c5a4fe7cf23214
   return { type: GET_ALL_PROJECTS };
 };
 
 //action worker sagas
-<<<<<<< HEAD
 export function* getAllProjectsSaga() {
-=======
-export function* getAllProjectSaga() {
->>>>>>> a7890c5b25b811cd017f9f8af5c5a4fe7cf23214
   try {
     const response = yield axios.get("/api/project/all");
     const project = yield response.data;

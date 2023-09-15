@@ -3,7 +3,7 @@
  */
 import { sendEmail } from "./sagas/email.saga";
 import { getUser } from "./sagas/user.saga";
-import { getProject, updateProjectZipCode } from "./sagas/project.saga";
+import { getProject, updateProjectZipCode, getAllProjects } from "./sagas/project.saga";
 import { getFrames } from "./sagas/frame.saga";
 import {
   getAllWindows,
@@ -20,6 +20,7 @@ const actions = {
   // project
   getProject,
   updateProjectZipCode,
+  getAllProjects,
   //frames
   getFrames,
   //window
