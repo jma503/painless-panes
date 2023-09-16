@@ -4,6 +4,7 @@ import Button from "./Button";
 import { useState, useEffect } from "react";
 import actions from "../store/actions";
 import { useDispatch, useSelector } from "react-redux";
+import { setCurrentWindowId } from "../store/reducers/window.reducer";
 
 export default function AddWindowImage() {
   const dispatch = useDispatch();
@@ -11,6 +12,7 @@ export default function AddWindowImage() {
   const [imgSrc, setImgSrc] = useState(null);
   const [preview, setPreview] = useState(null);
   const [verifyImage, setVerifyImage] = useState(0);
+  const [imageEditPreview, setImageEditPreview] = useState(null);
   const project = useSelector((store) => store.project);
   const currentWindowId = useSelector((store) => store.currentWindowId);
 
@@ -24,11 +26,13 @@ export default function AddWindowImage() {
     // dispatches a POST request to upload the photo to S3
     const formData = new FormData();
     formData.append("image", imgSrc);
+    console.log(imgSrc);
     formData.append("project_id", project.id);
     formData.append("current_window_id", currentWindowId);
     // console.log("FORMDATA", [...formData.entries()]);
     dispatch(actions.addWindowPhoto(formData));
     setVerifyImage(null);
+    // dispatch(setCurrentWindowId(null));
   };
 
   const videoConstraints = {
@@ -78,7 +82,14 @@ export default function AddWindowImage() {
       {preview && (
         <>
           <p>Preview:</p>
-          <img src={preview} />
+          {!currentWindowId ? (
+            <img src={preview} />
+          ) : (
+            <img
+              src={`https://painless-panes.s3.amazonaws.com/${window.image}`}
+              alt="window!"
+            />
+          )}
           {verifyImage && <Button onClick={sendPhotoToServer} text="Save" />}
           {verifyImage && (
             <Button

@@ -1,47 +1,18 @@
-import { useState, useEffect } from "react";
+import { useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
-import actions from "../store/actions";
-import Button from "../components/Button";
-import FormPageHeader from "../components/FormPageHeader";
-import FormPageButtonsContainer from "../components/FormPageButtonsContainer";
-import FormPageNavigationButtons from "../components/FormPageNavigationButtons";
+import { useNavigate } from "react-router-dom";
 import FormPageInput from "../components/FormPageInput";
-import {
-  getAllWindows,
-  updateWindowDimensions,
-} from "../store/sagas/window.saga";
+import { setCurrentWindowId } from "../store/reducers/window.reducer";
 
 export default function FormPageConfirmation() {
   const dispatch = useDispatch();
+  const navigate = useNavigate();
   const windows = useSelector((store) => store.allWindows);
   const frameTypes = useSelector((store) => store.frames);
-  const project = useSelector((store) => store.project);
-  const [windowToEdit, setWindowToEdit] = useState(null);
-  const [editHeight, setEditHeight] = useState("");
-  const [editWidth, setEditWidth] = useState("");
 
   const editWindow = (window) => {
-    setWindowToEdit(window);
-  };
-
-  const sendEdit = () => {
-    // defines the object to send as the edit - should we have frame type?
-    const editToSend = {
-      currentWindowId: windowToEdit.id,
-      imageWidth: editWidth,
-      imageHeight: editHeight,
-    };
-    dispatch(updateWindowDimensions(editToSend));
-    // wait one second after the edit is sent - allows the edit to populate
-    // in the database. then, retrieve all windows for the project
-    setTimeout(() => {
-      dispatch(getAllWindows({ project_id: project.id }));
-      setWindowToEdit(null);
-      setEditHeight("");
-      setEditWidth("");
-      // should we add a spinner? maybe a snackbar would be more appropriate
-      // since it's such a quick action?
-    }, 1000);
+    dispatch(setCurrentWindowId(Number(window.id)));
+    navigate("/form/4");
   };
 
   return (
@@ -62,54 +33,24 @@ export default function FormPageConfirmation() {
               />
             </figure>
             <div className="card-body items-center text-center">
-              {!windowToEdit ? (
-                <p>Height: {window.height}</p>
-              ) : (
-                <FormPageInput
-                  value={editHeight}
-                  placeholder={`Height: ${window.height}`}
-                  setValue={setEditHeight}
-                />
-              )}
-              {!windowToEdit ? (
-                <p>Width: {window.width}</p>
-              ) : (
-                <FormPageInput
-                  value={editWidth}
-                  placeholder={`Width: ${window.width}`}
-                  setValue={setEditWidth}
-                />
-              )}
+              <p>Height: {window.height}</p>
+              <p>Width: {window.width}</p>
               <p>Desired frame: {frameTypes[window.desired_frame_id].name}</p>
             </div>
-            {!windowToEdit ? (
-              <div className="card-actions justify-end">
-                <button
-                  className="btn btn-sm"
-                  onClick={() => {
-                    editWindow(window);
-                  }}
-                >
-                  edit
-                </button>
-              </div>
-            ) : (
-              <div className="card-actions justify-end">
-                <button
-                  className="btn btn-sm"
-                  onClick={() => {
-                    sendEdit();
-                  }}
-                >
-                  save
-                </button>
-              </div>
-            )}
+            <div className="card-actions justify-end">
+              <button
+                className="btn btn-sm"
+                onClick={() => {
+                  editWindow(window);
+                }}
+              >
+                Edit
+              </button>
+            </div>
           </div>
         ))}
         <div className="card-body">
           <div className="card-actions justify-center">
-            {/* <button className="btn btn-primary">Edit</button> */}
             <button className="btn btn-primary">Submit</button>
           </div>
         </div>
