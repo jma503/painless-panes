@@ -13,8 +13,10 @@ export default function AddWindowImage() {
   const [preview, setPreview] = useState(null);
   const [verifyImage, setVerifyImage] = useState(0);
   const [imageEditPreview, setImageEditPreview] = useState(null);
+  const [loading, setLoading] = useState(true);
   const project = useSelector((store) => store.project);
   const currentWindowId = useSelector((store) => store.currentWindowId);
+  const windows = useSelector((store) => store.allWindows);
 
   // handles sending the image capture to AWS in base64
   const sendPhotoToServer = (event) => {
@@ -67,42 +69,58 @@ export default function AddWindowImage() {
     setImgSrc(imageBlob);
   }, [webcamRef, setImgSrc]);
 
+  useEffect(() => {
+    const currentWindow = windows.find((window) => {
+      return window.id == currentWindowId;
+    });
+
+    // setImageEditPreview(currentWindow.image);
+    if (currentWindow.image !== null) {
+      setPreview(
+        `https://painless-panes.s3.amazonaws.com/${currentWindow.image}`
+      );
+      setVerifyImage(true);
+    }
+    setLoading(false);
+  }, [currentWindowId, windows]);
+
   return (
     <>
-      {!preview && (
-        <Webcam
-          audio={false}
-          height={720}
-          ref={webcamRef}
-          screenshotFormat="image/jpeg"
-          width={1280}
-          videoConstraints={videoConstraints}
-        />
-      )}
-      {preview && (
+      {loading ? (
+        <div>loading</div>
+      ) : (
         <>
-          <p>Preview:</p>
-          {!currentWindowId ? (
-            <img src={preview} />
-          ) : (
-            <img
-              src={`https://painless-panes.s3.amazonaws.com/${window.image}`}
-              alt="window!"
+          {!preview && (
+            <Webcam
+              audio={false}
+              height={720}
+              ref={webcamRef}
+              screenshotFormat="image/jpeg"
+              width={1280}
+              videoConstraints={videoConstraints}
             />
           )}
-          {verifyImage && <Button onClick={sendPhotoToServer} text="Save" />}
-          {verifyImage && (
-            <Button
-              onClick={() => {
-                setPreview(null);
-                setVerifyImage(null);
-              }}
-              text="Retake"
-            />
+          {preview && (
+            <>
+              <p>Preview:</p>
+              <img src={preview} />
+              {verifyImage && imgSrc && (
+                <Button onClick={sendPhotoToServer} text="Save" />
+              )}
+              {verifyImage && (
+                <Button
+                  onClick={() => {
+                    setPreview(null);
+                    setVerifyImage(null);
+                  }}
+                  text="Retake"
+                />
+              )}
+            </>
           )}
+          {!preview && <Button onClick={capture} text="Capture Image" />}
         </>
       )}
-      {!preview && <Button onClick={capture} text="Capture Image" />}
     </>
   );
 }

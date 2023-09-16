@@ -15,6 +15,10 @@ export default function FormPageConfirmation() {
     navigate("/form/4");
   };
 
+  const getFrameType = (frameId) => {
+    return frameTypes.find((frame) => frame.id == frameId);
+  };
+
   return (
     <>
       <div className="card w-102 bg-base-100 shadow-xl p-2 m-2">
@@ -35,7 +39,7 @@ export default function FormPageConfirmation() {
             <div className="card-body items-center text-center">
               <p>Height: {window.height}</p>
               <p>Width: {window.width}</p>
-              <p>Desired frame: {frameTypes[window.desired_frame_id].name}</p>
+              <p>Desired frame: {getFrameType(window.desired_frame_id).name}</p>
             </div>
             <div className="card-actions justify-end">
               <button
