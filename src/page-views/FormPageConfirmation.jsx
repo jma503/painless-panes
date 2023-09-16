@@ -17,15 +17,15 @@ export default function FormPageConfirmation() {
   const frameTypes = useSelector((store) => store.frames);
   const project = useSelector((store) => store.project);
   const [windowToEdit, setWindowToEdit] = useState(null);
-  const [editHeight, setEditHeight] = useState(null);
-  const [editWidth, setEditWidth] = useState(null);
+  const [editHeight, setEditHeight] = useState("");
+  const [editWidth, setEditWidth] = useState("");
 
   const editWindow = (window) => {
     setWindowToEdit(window);
   };
 
   const sendEdit = () => {
-    // defines the object to send as the edit
+    // defines the object to send as the edit - should we have frame type?
     const editToSend = {
       currentWindowId: windowToEdit.id,
       imageWidth: editWidth,
@@ -37,6 +37,8 @@ export default function FormPageConfirmation() {
     setTimeout(() => {
       dispatch(getAllWindows({ project_id: project.id }));
       setWindowToEdit(null);
+      setEditHeight("");
+      setEditWidth("");
       // should we add a spinner?
     }, 1000);
   };
