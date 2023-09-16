@@ -4,6 +4,7 @@ import Button from "./Button";
 import { useState, useEffect } from "react";
 import actions from "../store/actions";
 import { useDispatch, useSelector } from "react-redux";
+import { setCurrentWindowId } from "../store/reducers/window.reducer";
 
 export default function AddWindowImage() {
   const dispatch = useDispatch();
@@ -11,8 +12,11 @@ export default function AddWindowImage() {
   const [imgSrc, setImgSrc] = useState(null);
   const [preview, setPreview] = useState(null);
   const [verifyImage, setVerifyImage] = useState(0);
+  const [imageEditPreview, setImageEditPreview] = useState(null);
+  const [loading, setLoading] = useState(true);
   const project = useSelector((store) => store.project);
   const currentWindowId = useSelector((store) => store.currentWindowId);
+  const windows = useSelector((store) => store.allWindows);
 
   // handles sending the image capture to AWS in base64
   const sendPhotoToServer = (event) => {
@@ -24,11 +28,13 @@ export default function AddWindowImage() {
     // dispatches a POST request to upload the photo to S3
     const formData = new FormData();
     formData.append("image", imgSrc);
+    console.log(imgSrc);
     formData.append("project_id", project.id);
     formData.append("current_window_id", currentWindowId);
     // console.log("FORMDATA", [...formData.entries()]);
     dispatch(actions.addWindowPhoto(formData));
     setVerifyImage(null);
+    // dispatch(setCurrentWindowId(null));
   };
 
   const videoConstraints = {
@@ -63,35 +69,58 @@ export default function AddWindowImage() {
     setImgSrc(imageBlob);
   }, [webcamRef, setImgSrc]);
 
+  useEffect(() => {
+    const currentWindow = windows.find((window) => {
+      return window.id == currentWindowId;
+    });
+
+    // setImageEditPreview(currentWindow.image);
+    if (currentWindow.image !== null) {
+      setPreview(
+        `https://painless-panes.s3.amazonaws.com/${currentWindow.image}`
+      );
+      setVerifyImage(true);
+    }
+    setLoading(false);
+  }, [currentWindowId, windows]);
+
   return (
     <>
-      {!preview && (
-        <Webcam
-          audio={false}
-          height={720}
-          ref={webcamRef}
-          screenshotFormat="image/jpeg"
-          width={1280}
-          videoConstraints={videoConstraints}
-        />
-      )}
-      {preview && (
+      {loading ? (
+        <div>loading</div>
+      ) : (
         <>
-          <p>Preview:</p>
-          <img src={preview} />
-          {verifyImage && <Button onClick={sendPhotoToServer} text="Save" />}
-          {verifyImage && (
-            <Button
-              onClick={() => {
-                setPreview(null);
-                setVerifyImage(null);
-              }}
-              text="Retake"
+          {!preview && (
+            <Webcam
+              audio={false}
+              height={720}
+              ref={webcamRef}
+              screenshotFormat="image/jpeg"
+              width={1280}
+              videoConstraints={videoConstraints}
             />
           )}
+          {preview && (
+            <>
+              <p>Preview:</p>
+              <img src={preview} />
+              {verifyImage && imgSrc && (
+                <Button onClick={sendPhotoToServer} text="Save" />
+              )}
+              {verifyImage && (
+                <Button
+                  onClick={() => {
+                    setPreview(null);
+                    setVerifyImage(null);
+                  }}
+                  text="Retake"
+                />
+              )}
+            </>
+          )}
+          {!preview && <Button onClick={capture} text="Capture Image" />}
         </>
       )}
-      {!preview && <Button onClick={capture} text="Capture Image" />}
     </>
   );
 }

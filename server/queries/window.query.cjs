@@ -34,7 +34,7 @@ const addWindow = async (projectId) => {
  * @returns {Object} The project row of all windows
  */
 const getListOfWindows = async (projectId) => {
-  const queryString = `SELECT * FROM "window" WHERE project_id = $1;`;
+  const queryString = `SELECT * FROM "window" WHERE project_id = $1 ORDER BY id;`;
   const queryParams = [projectId];
   try {
     const result = await pool.query(queryString, queryParams);

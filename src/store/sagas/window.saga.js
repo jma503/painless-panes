@@ -43,7 +43,7 @@ export function* getAllWindowsSaga(action) {
     // If the currentWindowId is null, set it to the last window in he list
     const currentWindowId = yield select((store) => store.currentWindowId);
     if (currentWindowId === null) {
-      const lastWindowId = Math.max(windows.map((window) => window.id));
+      const lastWindowId = Math.max(...windows.map((window) => window.id));
       yield put(setCurrentWindowId(lastWindowId));
     }
   } catch (error) {
