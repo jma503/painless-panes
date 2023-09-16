@@ -39,7 +39,8 @@ export default function FormPageConfirmation() {
       setWindowToEdit(null);
       setEditHeight("");
       setEditWidth("");
-      // should we add a spinner?
+      // should we add a spinner? maybe a snackbar would be more appropriate
+      // since it's such a quick action?
     }, 1000);
   };
 
