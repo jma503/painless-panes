@@ -12,6 +12,10 @@ export default function FormPageConfirmation() {
   const windows = useSelector((store) => store.allWindows);
   const frameTypes = useSelector((store) => store.frames);
 
+  const getFrameType = (frameId) => {
+    return frameTypes.find((frame) => frame.id == frameId);
+  }
+
   return (
     <>
       <FormPageHeader text="Confirmation Page" />
@@ -24,7 +28,7 @@ export default function FormPageConfirmation() {
             </figure>
             <p>{window.height}</p>
             <p>{window.width}</p>
-            {/* <img src={frameTypes[window.desired_frame_id].image} /> */}
+            <p>Desired frame: {getFrameType(window.desired_frame_id).name}</p>
           </div>
         ))}
         <div className="card-body">
