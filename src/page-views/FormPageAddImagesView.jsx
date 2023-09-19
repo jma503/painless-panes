@@ -19,11 +19,27 @@ export default function FormPageAddImages() {
   const [imageHeight, setImageHeight] = useState("");
   const [frameType, setFrameType] = useState(null);
   const [dimensionsStatus, setDimensionsStatus] = useState(false);
+  const windows = useSelector((store) => store.allWindows);
 
   const frameTypes = useSelector((store) => store.frames);
+
   useEffect(() => {
     dispatch(actions.getFrames());
   }, []);
+
+  useEffect(() => {
+    const currentWindow = windows.find((window) => {
+      return window.id == currentWindowId;
+    });
+
+    if (currentWindow.image !== null) {
+      setImageHeight(currentWindow.height);
+      setImageWidth(currentWindow.width);
+      setFrameType(currentWindow.desired_frame_id);
+      // setVerifyImage(true);
+    }
+    // setLoading(false);
+  }, [currentWindowId, windows]);
 
   const saveDimensions = () => {
     const dimensionsToSend = { currentWindowId, imageWidth, imageHeight };
