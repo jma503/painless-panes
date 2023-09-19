@@ -36,9 +36,13 @@ export default function FormPageAddImages() {
       setImageHeight(currentWindow.height);
       setImageWidth(currentWindow.width);
       setFrameType(currentWindow.desired_frame_id);
-      // setVerifyImage(true);
+      console.log(
+        document.getElementById(`checkbox-${currentWindow.desired_frame_id}`)
+      );
+      document.getElementById(
+        `checkbox-${currentWindow.desired_frame_id}`
+      ).checked = true;
     }
-    // setLoading(false);
   }, [currentWindowId, windows]);
 
   const saveDimensions = () => {
@@ -95,8 +99,9 @@ export default function FormPageAddImages() {
             {frameTypes.map((frameType) => (
               <li key={frameType.id}>
                 <input
+                  // checked="false"
+                  id={`checkbox-${frameType.id}`}
                   onChange={(event) => {
-                    console.log(frameType.id);
                     setFrameType(frameType.id);
                   }}
                   type="checkbox"
