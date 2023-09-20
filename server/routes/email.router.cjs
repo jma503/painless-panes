@@ -9,7 +9,10 @@ const express = require("express");
 const {
   sendEmailMiddleware,
   verifyEmailMiddleware,
+  requireAuthenticationMiddleware,
 } = require("../middlewares/auth.middleware.cjs");
+
+const { sendConfirmationEmail } = require("../modules/email.cjs")
 
 const router = express.Router();
 
@@ -20,6 +23,12 @@ const router = express.Router();
  */
 router.post("/send", sendEmailMiddleware, (req, res) => {
   console.log(`Sent emaill with magic link to ${req.body.email}`);
+  res.sendStatus(202);
+});
+
+router.post("/confirmation", requireAuthenticationMiddleware, (req, res) => {
+  console.log(`Sent confirmation email to ${req.user.email}`);
+  sendConfirmationEmail(req.user.email);
   res.sendStatus(202);
 });
 

@@ -58,4 +58,3 @@ Command line
 Console
 
 1. Open `https://s3.console.aws.amazon.com/s3/buckets/painless-panes`
-

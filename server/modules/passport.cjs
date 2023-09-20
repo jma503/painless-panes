@@ -7,7 +7,7 @@ const passport = require("passport");
 const MagicLinkStrategy = require("passport-magic-link").Strategy;
 
 const userQuery = require("../queries/user.query.cjs");
-const sendEmailWithToken = require("./email.cjs");
+const { sendEmailWithToken } = require("./email.cjs");
 
 /**
  * Stores the ID from the user object as the identifier for the cookie session
