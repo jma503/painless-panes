@@ -6,6 +6,7 @@ import FormPageEmailView from "../page-views/FormPageEmailView";
 import FormPageZipView from "../page-views/FormPageZipView";
 import HowToMeasureWindows from "../page-views/HowToMeasureWindow";
 import FormPageAddImages from "../page-views/FormPageAddImagesView";
+import FormPageConfirmation from "../page-views/FormPageConfirmation";
 
 
 export default function FormPage() {
