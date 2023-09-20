@@ -3,7 +3,7 @@ import Layout from "./components/Layout";
 import FormPage from "./pages/FormPage";
 import NotFoundPage from "./pages/NotFoundPage";
 import PriorProjectsPage from "./pages/PriorProjectsPage";
-import NavBar from "./NavBar/NavBar";
+import NavBar from "./components/NavBar";
 
 export default function App() {
   return (
