@@ -52,8 +52,10 @@ export function* getAllWindowsSaga(action) {
 }
 
 export function* addWindowSaga(action) {
-  const project_id = action.payload.get("project_id");
+  console.log('Payload:', action.payload);
+  const project_id = action.payload.project_id;
   try {
+    console.log('Beginning of the try')
     const windowIdResponse = yield axios.post(
       `/api/window/${project_id}`,
       project_id
@@ -61,7 +63,8 @@ export function* addWindowSaga(action) {
     // id of the created window
     const windowId = yield windowIdResponse.data;
     yield put(setCurrentWindowId(windowId));
-    e;
+    console.log('End of the try')
+
   } catch (error) {
     console.error(error);
   }
@@ -91,12 +94,12 @@ export function* updateWindowDimensionsSaga(action) {
   try {
     const heightResponse = yield axios.put(
       `/api/window/${currentWindowId}/height`,
-      { height: imageWidth }
+      { height: imageHeight }
     );
     const widthResponse = yield axios.put(
       `/api/window/${currentWindowId}/width`,
       {
-        width: imageHeight,
+        width: imageWidth,
       }
     );
     // console.log("Updated window dimensions:", heightResponse, widthResponse);
