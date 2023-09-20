@@ -2,7 +2,8 @@ import { Navigate, Routes, Route } from "react-router-dom";
 import Layout from "./components/Layout";
 import FormPage from "./pages/FormPage";
 import NotFoundPage from "./pages/NotFoundPage";
-import PriorProjectsPage from "./pages/PriorProjectsPage"
+import PriorProjectsPage from "./pages/PriorProjectsPage";
+import NavBar from "./NavBar/NavBar";
 
 export default function App() {
   return (
