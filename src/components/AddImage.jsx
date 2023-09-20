@@ -83,7 +83,7 @@ export default function AddWindowImage() {
     }, [currentWindowId]);
 
     // setImageEditPreview(currentWindow.image);
-    if (currentWindow.image !== null) {
+    if (currentWindow && currentWindow.image !== null) {
       setPreview(
         `https://painless-panes.s3.amazonaws.com/${currentWindow.image}`
       );
