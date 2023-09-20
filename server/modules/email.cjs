@@ -34,4 +34,18 @@ const sendEmailWithToken = (user, token) => {
   });
 };
 
-module.exports = sendEmailWithToken;
+const sendConfirmationEmail = (email) => {
+  console.log(`Sending confirmation email to ${email}`);
+  return sendgrid.send({
+    to: email,
+    from: process.env.SENDGRID_EMAIL,
+    subject: "Submission Confimation",
+    text: `Hello! Thank you for submitting your information. We have received your submission and it is being processed. You can expect an email within the next 72 hours with a qualifying estimate.`,
+    html: `
+      <h3>Hello!</h3>
+      <p>Thank you for submitting your information. We have received your submission and it is being processed. You can expect an email within the next 72 hours with a qualifying estimate.</p>
+    `,
+  });
+};
+
+module.exports = {sendEmailWithToken, sendConfirmationEmail };

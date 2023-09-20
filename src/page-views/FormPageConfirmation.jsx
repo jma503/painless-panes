@@ -1,5 +1,6 @@
 import { useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
+import actions from "../store/actions";
 import { useNavigate } from "react-router-dom";
 import FormPageInput from "../components/FormPageInput";
 import { setCurrentWindowId } from "../store/reducers/window.reducer";
@@ -10,6 +11,7 @@ export default function FormPageConfirmation() {
   const windows = useSelector((store) => store.allWindows);
   const frameTypes = useSelector((store) => store.frames);
 
+
   const editWindow = (window) => {
     dispatch(setCurrentWindowId(Number(window.id)));
     navigate("/form/4");
@@ -18,7 +20,10 @@ export default function FormPageConfirmation() {
   const getFrameType = (frameId) => {
     return frameTypes.find((frame) => frame.id == frameId);
   };
-
+  const sendConfirmationEmail = () => {
+    // Send the confirmation email;
+    dispatch(actions.sendConfirmationEmail());
+  };
   return (
     <>
       <div className="card w-102 bg-base-100 shadow-xl p-2 m-2">
@@ -55,7 +60,7 @@ export default function FormPageConfirmation() {
         ))}
         <div className="card-body">
           <div className="card-actions justify-center">
-            <button className="btn btn-primary">Submit</button>
+            <button className="btn btn-primary" onClick={sendConfirmationEmail}>Submit</button>
           </div>
         </div>
       </div>

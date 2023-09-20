@@ -4,7 +4,7 @@
 
 In this directory, run `npm install` to install the node dependencies.
 
-### Create SendGrid Account
+### Create Grid Account
 
 Follow [these instructions](https://www.passportjs.org/tutorials/email/setup/) to set up a SendGrid account.
 
@@ -58,4 +58,3 @@ Command line
 Console
 
 1. Open `https://s3.console.aws.amazon.com/s3/buckets/painless-panes`
-
