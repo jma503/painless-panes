@@ -77,12 +77,13 @@ export default function AddWindowImage() {
   }, [webcamRef, setImgSrc]);
 
   useEffect(() => {
+    console.log('THIS IS WINDOW ID',currentWindowId)
     const currentWindow = windows.find((window) => {
       return window.id == currentWindowId;
     }, [currentWindowId]);
 
     // setImageEditPreview(currentWindow.image);
-    if (currentWindow && currentWindow.image !== null) {
+    if (currentWindow.image !== null) {
       setPreview(
         `https://painless-panes.s3.amazonaws.com/${currentWindow.image}`
       );
