@@ -4,7 +4,7 @@
 
 In this directory, run `npm install` to install the node dependencies.
 
-### Create Grid Account
+### Create SendGrid Account
 
 Follow [these instructions](https://www.passportjs.org/tutorials/email/setup/) to set up a SendGrid account.
 
