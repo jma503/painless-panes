@@ -34,4 +34,27 @@ const sendEmailWithToken = (user, token) => {
   });
 };
 
-module.exports = sendEmailWithToken;
+const sendContactEmail = (req, res) => {
+  const { email, message } = req.body;
+
+  const msg = {
+    to: "painlesspanesdev@gmail.com",
+    from: email,
+    subject: "New Message from Contact Form",
+    text: message,
+    html: `<p>${message}</p>`,
+  };
+
+  sendgrid
+    .send(msg)
+    .then(() => {
+      console.log("Email sent successfully");
+      res.status(200).send("Email sent successfully");
+    })
+    .catch((error) => {
+      console.error("An error occurred while sending the email", error);
+      res.status(500).send("An error occurred while sending the email");
+    });
+};
+
+(module.exports = sendEmailWithToken), sendContactEmail;
