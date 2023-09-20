@@ -18,6 +18,13 @@ export default function AddWindowImage() {
   const currentWindowId = useSelector((store) => store.currentWindowId);
   const windows = useSelector((store) => store.allWindows);
 
+
+  const addNewWindow = () => {
+      dispatch(actions.addWindow({project_id: project.id}));
+      setPreview(null);
+      setVerifyImage(null);
+  };
+
   // handles sending the image capture to AWS in base64
   const sendPhotoToServer = (event) => {
     event.preventDefault();
@@ -70,12 +77,14 @@ export default function AddWindowImage() {
   }, [webcamRef, setImgSrc]);
 
   useEffect(() => {
+    console.log('THIS IS WINDOW ID',currentWindowId)
     const currentWindow = windows.find((window) => {
       return window.id == currentWindowId;
-    });
+    }, [currentWindowId]);
 
     // setImageEditPreview(currentWindow.image);
-    if (currentWindow.image !== null) {
+    console.log('THIS IS THE CURRENT WINDOW DATA', windows)
+    if (currentWindow && currentWindow.image !== null) {
       setPreview(
         `https://painless-panes.s3.amazonaws.com/${currentWindow.image}`
       );
@@ -121,6 +130,8 @@ export default function AddWindowImage() {
           {!preview && <Button onClick={capture} text="Capture Image" />}
         </>
       )}
+          <Button text="Add additional windows" onClick={addNewWindow}
+      ></Button>
     </>
   );
 }
