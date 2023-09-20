@@ -6,8 +6,6 @@ import FormPageEmailView from "../page-views/FormPageEmailView";
 import FormPageZipView from "../page-views/FormPageZipView";
 import HowToMeasureWindows from "../page-views/HowToMeasureWindow";
 import FormPageAddImages from "../page-views/FormPageAddImagesView";
-import NavBar from "../components/NavBar/NavBar";
-
 
 
 export default function FormPage() {
@@ -33,7 +31,6 @@ export default function FormPage() {
 
   return (
     <div className="w-full pl-12 pr-12 flex flex-col items-center justify-center">
-      <NavBar />
       {page == 1 && <FormPageEmailView />}
       {page == 2 && <FormPageZipView />}
       {page == 3 && <HowToMeasureWindows />}
