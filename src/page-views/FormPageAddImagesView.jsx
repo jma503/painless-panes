@@ -19,11 +19,31 @@ export default function FormPageAddImages() {
   const [imageHeight, setImageHeight] = useState("");
   const [frameType, setFrameType] = useState(null);
   const [dimensionsStatus, setDimensionsStatus] = useState(false);
+  const windows = useSelector((store) => store.allWindows);
 
   const frameTypes = useSelector((store) => store.frames);
+
   useEffect(() => {
     dispatch(actions.getFrames());
   }, []);
+
+  useEffect(() => {
+    const currentWindow = windows.find((window) => {
+      return window.id == currentWindowId;
+    });
+
+    if (currentWindow.image !== null) {
+      setImageHeight(currentWindow.height);
+      setImageWidth(currentWindow.width);
+      setFrameType(currentWindow.desired_frame_id);
+      console.log(
+        document.getElementById(`checkbox-${currentWindow.desired_frame_id}`)
+      );
+      document.getElementById(
+        `checkbox-${currentWindow.desired_frame_id}`
+      ).checked = true;
+    }
+  }, [currentWindowId, windows]);
 
   const saveDimensions = () => {
     const dimensionsToSend = { currentWindowId, imageWidth, imageHeight };
@@ -79,8 +99,9 @@ export default function FormPageAddImages() {
             {frameTypes.map((frameType) => (
               <li key={frameType.id}>
                 <input
+                  // checked="false"
+                  id={`checkbox-${frameType.id}`}
                   onChange={(event) => {
-                    console.log(frameType.id);
                     setFrameType(frameType.id);
                   }}
                   type="checkbox"
