@@ -17,7 +17,7 @@ export default function FormPageAddImages() {
   const currentWindowId = useSelector((store) => store.currentWindowId);
   const [imageWidth, setImageWidth] = useState("");
   const [imageHeight, setImageHeight] = useState("");
-  const [frameType, setFrameType] = useState(null);
+  const [desiredFrame, setDesiredFrame] = useState(null);
   const [dimensionsStatus, setDimensionsStatus] = useState(false);
   const windows = useSelector((store) => store.allWindows);
 
@@ -32,16 +32,10 @@ export default function FormPageAddImages() {
       return window.id == currentWindowId;
     });
 
-    if (currentWindow.image !== null) {
+  if (currentWindow && currentWindow.image !== null) {
       setImageHeight(currentWindow.height);
       setImageWidth(currentWindow.width);
-      setFrameType(currentWindow.desired_frame_id);
-      console.log(
-        document.getElementById(`checkbox-${currentWindow.desired_frame_id}`)
-      );
-      document.getElementById(
-        `checkbox-${currentWindow.desired_frame_id}`
-      ).checked = true;
+      setDesiredFrame(currentWindow.desired_frame_id);
     }
   }, [currentWindowId, windows]);
 
@@ -52,7 +46,7 @@ export default function FormPageAddImages() {
   };
 
   const updateFrameType = () => {
-    const frameToSend = { currentWindowId, frameType };
+    const frameToSend = { currentWindowId, frameType: desiredFrame };
     dispatch(updateWindowFrame(frameToSend));
   };
 
@@ -98,15 +92,10 @@ export default function FormPageAddImages() {
             {/* --TODO-- Ensure that the user can only select one frame at a time */}
             {frameTypes.map((frameType) => (
               <li key={frameType.id}>
-                <input
-                  // checked="false"
-                  id={`checkbox-${frameType.id}`}
-                  onChange={(event) => {
-                    setFrameType(frameType.id);
-                  }}
-                  type="checkbox"
-                  className="checkbox"
-                />
+                <input type="radio" name="radio-1" className="radio" checked={frameType.id==desiredFrame}
+                   onChange={(event) => {
+                    setDesiredFrame(frameType.id);
+                  }}/>
                 <label> {frameType.name}</label>
                 <img src={frameType.image} alt={frameType.name} />
               </li>

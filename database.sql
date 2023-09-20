@@ -22,7 +22,9 @@ CREATE TABLE "user" (
 CREATE TABLE "project" (
   "id" BIGSERIAL PRIMARY KEY,
   "zip" VARCHAR(10),
-  "user_id" BIGINT REFERENCES "user" NOT NULL
+  "user_id" BIGINT REFERENCES "user" NOT NULL,
+  "submitted" BOOLEAN,
+  "date" TIMESTAMPTZ DEFAULT CURRENT_TIMESTAMP
 );
 
 -- SELECT * FROM "project";
@@ -54,7 +56,9 @@ CREATE TABLE "window" (
   "height" INT, -- for both height and width, we can discuss what the proper precision is/if decimals are needed
   "width" INT,
   "desired_frame_id" INT REFERENCES "frame",
-  "project_id" BIGINT REFERENCES "project" NOT NULL
+  "project_id" BIGINT REFERENCES "project" NOT NULL,
+  "submitted" BOOLEAN,
+  "submittal_date" date 
 );
 
 -- SELECT * FROM "window";

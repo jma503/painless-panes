@@ -4,11 +4,14 @@ import FormPageHeader from "../components/FormPageHeader";
 import actions from "../store/actions"
 
 export default function PriorProjectsPage() {
-  const projectWindows = useSelector((store) => store.projects);
+  const userProjects = useSelector((store) => store.projects);
+  const projectWindows = useSelector((store) => store.allWindows);
+  console.log(projectWindows);
     const dispatch = useDispatch();
 
   useEffect(() => {
    dispatch(actions.getAllProjects());
+   dispatch(actions.getAllWindows({ project_id: userProjects.user_id }));
   }, []);
 
   return (
@@ -16,7 +19,7 @@ export default function PriorProjectsPage() {
       <FormPageHeader text="My Projects" />
       <div className="overflow-x-auto">
         {projectWindows.map((project) => {
-          <div className="card w-96 bg-base-100 shadow-xl">
+          <div key={project.id} className="card w-96 bg-base-100 shadow-xl">
             <figure>
               <img src={project.image} />
             </figure>
