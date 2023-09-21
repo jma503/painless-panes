@@ -36,7 +36,7 @@ export default function FormPage() {
       {page == 3 && <HowToMeasureWindows />}
       {page == 4 && <FormPageAddImages />}
       {page == 5 && <FormPageConfirmation />}
-      {page == 6 && <ContactPage />}
+      {page == 7 && <ContactPage />}
     </div>
   );
 }

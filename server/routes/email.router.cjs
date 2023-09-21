@@ -13,7 +13,7 @@ const {
 
 const router = express.Router();
 
-const { sendContactEmail } = require("../email.cjs");
+const { sendContactEmail } = require("../modules/email.cjs");
 
 /**
  * @api {post} /api/email/send Send the user an email with a magic link for verification
@@ -43,8 +43,18 @@ router.get("/verify", verifyEmailMiddleware, (req, res) => {
  * @apiBody {String} message The message to be sent
  */
 
-router.post("/contact", (req, res) => {
-  sendContactEmail(req, res);
+router.post("/contact", async (req, res) => {
+  try {
+    const { email, message } = req.body;
+    console.log("Received contact request", { email, message });
+    const response = await sendContactEmail(email, message);
+
+    console.log("Email sent successfully", response);
+    res.status(200).send("Email sent successfully");
+  } catch (error) {
+    console.log("Failed to send email", error);
+    res.status(500).send("Internal Server Error");
+  }
 });
 
 module.exports = router;
