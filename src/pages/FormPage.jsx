@@ -7,7 +7,7 @@ import FormPageZipView from "../page-views/FormPageZipView";
 import HowToMeasureWindows from "../page-views/HowToMeasureWindow";
 import FormPageAddImages from "../page-views/FormPageAddImagesView";
 import FormPageConfirmation from "../page-views/FormPageConfirmation";
-
+import ContactPage from "../page-views/ContactPage";
 
 export default function FormPage() {
   const { page = 1 } = useParams();
@@ -26,9 +26,8 @@ export default function FormPage() {
   }, [project]);
 
   useEffect(() => {
-    dispatch(actions.getFrames())
-  },[])
-
+    dispatch(actions.getFrames());
+  }, []);
 
   return (
     <div className="w-full pl-12 pr-12 flex flex-col items-center justify-center">
@@ -37,6 +36,7 @@ export default function FormPage() {
       {page == 3 && <HowToMeasureWindows />}
       {page == 4 && <FormPageAddImages />}
       {page == 5 && <FormPageConfirmation />}
+      {page == 7 && <ContactPage />}
     </div>
   );
 }

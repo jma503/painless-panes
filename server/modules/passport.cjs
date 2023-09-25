@@ -1,6 +1,6 @@
 /**
  * Sets up Passport JS authentication using the "magic link" strategy
- * 
+ *
  * Documentation: https://github.com/vinialbano/passport-magic-link#example
  */
 const passport = require("passport");
@@ -31,11 +31,11 @@ passport.deserializeUser((id, done) => {
 
 /**
  * Initializes the magic link authentication strategy using three arguments:
- * 
+ *
  * Documentation: https://github.com/vinialbano/passport-magic-link#example
- * 
+ *
  * MagicLink(options, sendToken, verifyUser)
- * 
+ *
  * options: Configuration options, including session secret and a flag to trigger
  *    automatic verification when the token is received (on magic link click).
  * sendToken: A function that takes `(user, token)`, a user object and a token, and
