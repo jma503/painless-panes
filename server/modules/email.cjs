@@ -34,6 +34,7 @@ const sendEmailWithToken = (user, token) => {
   });
 };
 
+<<<<<<< HEAD
 const sendConfirmationEmail = (email) => {
   console.log(`Sending confirmation email to ${email}`);
   return sendgrid.send({
@@ -48,6 +49,8 @@ const sendConfirmationEmail = (email) => {
   });
 };
 
+=======
+>>>>>>> 06fefc2a14910fc2eeb3db6b4444a10eadc85e3d
 const sendContactEmail = (email, message) => {
   const msg = {
     to: "painlesspanesdev@gmail.com",
